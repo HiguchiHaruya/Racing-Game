@@ -10,9 +10,11 @@ public class Vehicle : MonoBehaviour, ICar
     private float _maxTorque;
     public float angle;
     public float brake;
-    protected float _friction = 1f;
+    protected float _friction = 2f;
     protected float _driftFriction = 0.25f;
     private float _torque = 0;
+    private float maxTime = 2.5f;//Å‚‘¬“x‚É’B‚·‚é‚Ü‚Å‚ÌŽžŠÔ
+    private float currentTime;
     protected WheelCollider frontRight, frontLeft, rearRight, rearLeft;
 
     public float MaxTorque => _maxTorque;
@@ -31,7 +33,16 @@ public class Vehicle : MonoBehaviour, ICar
     }
     public virtual void Precession()
     {
-        _torque = _maxTorque * -Input.GetAxis("Vertical");
+        if (-Input.GetAxis("Vertical") < 0)
+        {
+            currentTime += Time.deltaTime / maxTime;
+            _torque = Mathf.Lerp(0, -1 * _maxTorque, currentTime);
+        }
+        else
+        {
+            _torque = 0;
+        }
+        //_torque = _maxTorque * -Input.GetAxis("Vertical");
         rearLeft.motorTorque = _torque;
         rearRight.motorTorque = _torque;
         frontLeft.motorTorque = _torque;
