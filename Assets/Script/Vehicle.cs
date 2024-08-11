@@ -1,22 +1,41 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 
 public class Vehicle : MonoBehaviour, ICar
 {
-    public float maxTorque;
+    public static Vehicle Instance;
+    [SerializeField]
+    private float _maxTorque;
     public float angle;
     public float brake;
     protected float _friction = 1f;
     protected float _driftFriction = 0.25f;
+    private float _torque = 0;
     protected WheelCollider frontRight, frontLeft, rearRight, rearLeft;
+
+    public float MaxTorque => _maxTorque;
+    public float Torque => _torque;
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
     public virtual void Precession()
     {
-        float torque = maxTorque * -Input.GetAxis("Vertical");
-        rearLeft.motorTorque = torque;
-        rearRight.motorTorque = torque;
-        frontLeft.motorTorque = torque;
-        frontRight.motorTorque = torque;
+        _torque = _maxTorque * -Input.GetAxis("Vertical");
+        rearLeft.motorTorque = _torque;
+        rearRight.motorTorque = _torque;
+        frontLeft.motorTorque = _torque;
+        frontRight.motorTorque = _torque;
     }
     public virtual void MoveSideways()
     {

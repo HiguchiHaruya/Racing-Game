@@ -13,10 +13,6 @@ public class WheelController : Vehicle, ICar
 
     private void Start()
     {
-        //if (TryGetComponent<Rigidbody>(out var rb))
-        //{
-        //    rb.velocity = new Vector3(0, 0, 3.5f);
-        //}
         base.frontLeft = this._frontLeft;
         base.frontRight = this._frontRight;
         base.rearLeft = this._rearLeft;
