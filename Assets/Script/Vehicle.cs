@@ -13,7 +13,7 @@ public class Vehicle : MonoBehaviour, ICar
     protected float _friction = 2f;
     protected float _driftFriction = 0.25f;
     private float _torque = 0;
-    private float maxTime = 2.5f;//最高速度に達するまでの時間
+    private float maxTime = 5f;//最高速度に達するまでの時間
     private float currentTime;
     protected WheelCollider frontRight, frontLeft, rearRight, rearLeft;
 
@@ -40,7 +40,8 @@ public class Vehicle : MonoBehaviour, ICar
         }
         else
         {
-            _torque = 0;
+            currentTime -= Time.deltaTime / maxTime;
+            _torque = Mathf.Lerp(0, -1 * _maxTorque, currentTime);
         }
         //_torque = _maxTorque * -Input.GetAxis("Vertical");
         rearLeft.motorTorque = _torque;
@@ -66,7 +67,7 @@ public class Vehicle : MonoBehaviour, ICar
     public virtual void Drift()
     {
         WheelFrictionCurve sidewaysFriction = rearLeft.sidewaysFriction;
-        Debug.Log(sidewaysFriction.stiffness);
+       // Debug.Log(sidewaysFriction.stiffness);
         if (Input.GetKey(KeyCode.LeftShift)) { sidewaysFriction.stiffness = _driftFriction; }
         else { sidewaysFriction.stiffness = _friction; }
 
