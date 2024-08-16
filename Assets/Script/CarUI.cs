@@ -8,15 +8,20 @@ public class CarUI : MonoBehaviour
     [SerializeField]
     private ParticleSystem _saturatedLine;
     [SerializeField]
-    private Image TorqueSlider;
+    private Image _torqueSlider;
     [SerializeField]
-    private Text TorqueText;
+    private Text _torqueText;
     void Update()
     {
-        TorqueSlider.fillAmount = Mathf.Abs(Vehicle.Instance.Torque) / Vehicle.Instance.MaxTorque;
-        Debug.Log($"current : {Vehicle.Instance.Torque} max : {Vehicle.Instance.MaxTorque}");
+        SpeedoMeter();
         MaxSpeedParticle();
-        TorqueText.text = Mathf.Abs((int)Vehicle.Instance.Torque).ToString();
+    }
+
+    private void SpeedoMeter()
+    {
+        _torqueSlider.fillAmount = Mathf.Abs(Vehicle.Instance.Torque) / Vehicle.Instance.MaxTorque;
+        Debug.Log($"current : {Vehicle.Instance.Torque} max : {Vehicle.Instance.MaxTorque}");
+        _torqueText.text = Mathf.Abs((int)Vehicle.Instance.Torque / 10).ToString();
     }
 
     private void MaxSpeedParticle()

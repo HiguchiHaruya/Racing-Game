@@ -13,7 +13,7 @@ public class Vehicle : MonoBehaviour, ICar
     protected float _friction = 2f;
     protected float _driftFriction = 0.25f;
     private float _torque = 0;
-    private float maxTime = 5f;//最高速度に達するまでの時間
+    private float maxTime = 5f; //最高速度に達するまでの時間
     private float currentTime;
     protected WheelCollider frontRight, frontLeft, rearRight, rearLeft;
 
