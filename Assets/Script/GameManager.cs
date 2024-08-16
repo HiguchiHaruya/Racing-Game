@@ -48,22 +48,22 @@ public class GameManager : MonoBehaviour
                 case 4:
                     _startLights1.material = _greenMaterial;
                     AudioManager.Instance.PlayClip(0);
-                    Debug.Log("4");
+                    // Debug.Log("4");
                     break;
                 case 3:
                     _startLights2.material = _greenMaterial;
                     AudioManager.Instance.PlayClip(1);
-                    Debug.Log("3");
+                    //  Debug.Log("3");
                     break;
                 case 2:
                     _startLights3.material = _greenMaterial;
                     AudioManager.Instance.PlayClip(2);
-                    Debug.Log("2");
+                    //   Debug.Log("2");
                     break;
                 case 1:
                     _isGameStart = true;
                     AudioManager.Instance.PlayClip(3);
-                    Debug.Log("1");
+                    //  Debug.Log("1");
                     break;
             }
         }

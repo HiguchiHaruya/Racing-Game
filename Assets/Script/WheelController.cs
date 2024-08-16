@@ -7,12 +7,12 @@ using UnityEngine.ProBuilder.Shapes;
 
 public class WheelController : Vehicle, ICar
 {
-    Rigidbody _rb;
     [SerializeField]
     WheelCollider _frontRight, _frontLeft, _rearRight, _rearLeft;
-
+    Rigidbody _rb;
     private void Start()
     {
+        _rb = GetComponent<Rigidbody>();
         base.frontLeft = this._frontLeft;
         base.frontRight = this._frontRight;
         base.rearLeft = this._rearLeft;
@@ -24,6 +24,7 @@ public class WheelController : Vehicle, ICar
         MoveSideways();
         Precession();
         Breake();
+        Acceleration(_rb);
     }
     public override void MoveSideways()
     {
@@ -40,5 +41,9 @@ public class WheelController : Vehicle, ICar
     public override void Drift()
     {
         base.Drift();
+    }
+    public override void Acceleration(Rigidbody rb)
+    {
+        base.Acceleration(rb);
     }
 }

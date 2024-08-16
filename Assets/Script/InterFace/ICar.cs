@@ -8,4 +8,5 @@ interface ICar
     void MoveSideways();
     void Breake();
     void Drift();
+    void Acceleration(Rigidbody rb);
 }
