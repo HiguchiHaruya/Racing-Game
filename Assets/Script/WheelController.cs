@@ -4,12 +4,22 @@ using UnityEngine;
 using UnityEngine.ProBuilder.Shapes;
 
 
-
+//public enum CarState
+//{
+//    Idle,
+//    Low,
+//    High
+//}
 public class WheelController : Vehicle, ICar
 {
     [SerializeField]
     WheelCollider _frontRight, _frontLeft, _rearRight, _rearLeft;
     Rigidbody _rb;
+    //private CarState _currentState;
+   protected override void Awake()
+    {
+        base.Awake();
+    }
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
@@ -20,6 +30,7 @@ public class WheelController : Vehicle, ICar
     }
     void FixedUpdate()
     {
+  //      Debug.Log(_currentState);
         Drift();
         MoveSideways();
         Precession();
