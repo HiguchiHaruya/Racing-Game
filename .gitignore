@@ -74,3 +74,4 @@ crashlytics-build.properties
 Assets/CartoonTracksPack1/Track1/Meshes/Track_Meshes/OvalModular/oval_mod_trees.FBX.meta
 Assets/CartoonTracksPack1/Track1/Meshes/Track_Meshes/OvalModular/oval_mod_trees.FBX
 Assets/CartoonTracksPack1/Track1/Textures/road_normal.png
+Assets/Scenes/SampleScene/OcclusionCullingData.asset

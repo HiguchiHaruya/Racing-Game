@@ -11,7 +11,7 @@ public class Vehicle : MonoBehaviour, ICar
     public float angle;
     public float brake;
     protected float _friction = 2f;
-    protected float _driftFriction = 0.25f;
+    protected float _driftFriction = 0.85f;
     private float _torque = 0;
     private float maxTime = 1f; //Å‚‘¬“x‚É’B‚·‚é‚Ü‚Å‚ÌŠÔ
     private float currentTime;
