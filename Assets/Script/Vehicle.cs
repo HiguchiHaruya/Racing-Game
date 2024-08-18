@@ -7,17 +7,17 @@ public class Vehicle : MonoBehaviour, ICar
 {
     public static Vehicle Instance;
     [SerializeField]
-    private float _maxTorque;
-    public float angle;
-    public float brake;
-    protected float _friction = 2f;
-    protected float _driftFriction = 0.85f;
-    private float _torque = 0;
+    private float _maxTorque; //Max速度
+    public float angle; //横移動角度
+    public float brake; //ブレーキ力
+    protected float _friction = 2f; //通常時のタイヤの摩擦
+    protected float _driftFriction = 0.87f; //ドリフト時のタイヤの摩擦
+    private float _torque = 0; //現在の速度
     private float maxTime = 1f; //最高速度に達するまでの時間
-    private float currentTime;
-    private float _coolTime = 0;
-    protected WheelCollider frontRight, frontLeft, rearRight, rearLeft;
-    private CarState _currentState;
+    private float currentTime; //maxTimeを計測するための変数
+    private float _coolTime = 0; //加速のクールタイム
+    protected WheelCollider frontRight, frontLeft, rearRight, rearLeft; //タイヤ達
+    private CarState _currentState; 
     public float MaxTorque => _maxTorque;
     public float Torque => _torque;
     public float CoolTime => _coolTime;
@@ -39,37 +39,42 @@ public class Vehicle : MonoBehaviour, ICar
     }
     private void Update()
     {
+        ChangeState();
+    }
+
+    private void ChangeState()
+    {
         if (frontLeft.motorTorque <= -2400) { _currentState = CarState.High; }
         else if (frontLeft.motorTorque >= -2400 && frontLeft.motorTorque < 0) { _currentState = CarState.Low; }
         else if (frontLeft.motorTorque >= 0) { _currentState = CarState.Idle; }
     }
+    /// <summary>前移動メソッド</summary>
     public virtual void Precession()
     {
-        // Debug.Log($"最高速度に達するまでの時間 : {currentTime}");
         currentTime = Mathf.Min(currentTime, maxTime);
         if (-Input.GetAxis("Vertical") < 0)
-        {
+        { //入力中にMax速度に達するまでの時間を計算して_torqueに値を入れる
             currentTime += Time.deltaTime / maxTime;
-            _torque = Mathf.Lerp(0, -1 * _maxTorque, currentTime);
+            _torque = Mathf.Lerp(0, -1 * _maxTorque, currentTime); 
         }
         else
         {
             currentTime -= Time.deltaTime / maxTime;
             _torque = Mathf.Lerp(0, -1 * _maxTorque, currentTime);
-            currentTime = Mathf.Max(currentTime, 0);
+            currentTime = Mathf.Max(currentTime, 0); //プラスの値にならないように制限
         }
         rearLeft.motorTorque = _torque;
         rearRight.motorTorque = _torque;
         frontLeft.motorTorque = _torque;
         frontRight.motorTorque = _torque;
     }
+    /// <summary>横移動メソッド </summary>
     public virtual void MoveSideways()
     {
         float steer = angle * Input.GetAxis("Horizontal");
         frontLeft.steerAngle = steer;
         frontRight.steerAngle = steer;
     }
-
     public virtual void Breake()
     {
         float brakeforce = Input.GetKey(KeyCode.Space) ? brake : 0;
@@ -81,7 +86,6 @@ public class Vehicle : MonoBehaviour, ICar
     public virtual void Drift()
     {
         WheelFrictionCurve sidewaysFriction = rearLeft.sidewaysFriction;
-        // Debug.Log(sidewaysFriction.stiffness);
         if (Input.GetKey(KeyCode.LeftShift)) { sidewaysFriction.stiffness = _driftFriction; }
         else { sidewaysFriction.stiffness = _friction; }
 

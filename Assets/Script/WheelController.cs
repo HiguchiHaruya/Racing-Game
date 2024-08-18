@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.VisualScripting;
 using UnityEngine;
 using UnityEngine.ProBuilder.Shapes;
 
@@ -15,13 +16,20 @@ public class WheelController : Vehicle, ICar
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
+        RegisterTire();
+    }
+
+    private void RegisterTire()
+    {
         base.frontLeft = this._frontLeft;
         base.frontRight = this._frontRight;
         base.rearLeft = this._rearLeft;
         base.rearRight = this._rearRight;
     }
+    
     void FixedUpdate()
     {
+        if (!GameManager.Instance.IsGameStart) return;
         Drift();
         MoveSideways();
         Precession();
