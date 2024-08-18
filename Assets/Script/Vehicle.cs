@@ -54,8 +54,8 @@ public class Vehicle : MonoBehaviour, ICar
         {
             currentTime -= Time.deltaTime / maxTime;
             _torque = Mathf.Lerp(0, -1 * _maxTorque, currentTime);
+            currentTime = Mathf.Max(currentTime, 0);
         }
-        //_torque = _maxTorque * -Input.GetAxis("Vertical");
         rearLeft.motorTorque = _torque;
         rearRight.motorTorque = _torque;
         frontLeft.motorTorque = _torque;
