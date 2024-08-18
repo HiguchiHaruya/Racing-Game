@@ -11,10 +11,13 @@ public class CarUI : MonoBehaviour
     private Image _torqueSlider;
     [SerializeField]
     private Text _torqueText;
+    [SerializeField]
+    private Slider _coolTimeSlier;
     void Update()
     {
         SpeedoMeter();
         MaxSpeedParticle();
+        _coolTimeSlier.value = Vehicle.Instance.CoolTime;
     }
 
     private void SpeedoMeter()

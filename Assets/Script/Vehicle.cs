@@ -15,10 +15,12 @@ public class Vehicle : MonoBehaviour, ICar
     private float _torque = 0;
     private float maxTime = 1f; //最高速度に達するまでの時間
     private float currentTime;
+    private float _coolTime = 0;
     protected WheelCollider frontRight, frontLeft, rearRight, rearLeft;
     private CarState _currentState;
     public float MaxTorque => _maxTorque;
     public float Torque => _torque;
+    public float CoolTime => _coolTime;
     protected virtual void Awake()
     {
         if (Instance == null)
@@ -89,10 +91,15 @@ public class Vehicle : MonoBehaviour, ICar
     ///<summary> 加速機能メソッド</summary>
     public virtual void Acceleration(Rigidbody rb)
     {
-        if (!rb.TryGetComponent<Rigidbody>(out var rigidbody)) { return; }
-        if (Input.GetKeyDown(KeyCode.Return))
+        _coolTime += Time.deltaTime;
+        if ((int)_coolTime >= 30)
         {
-            rigidbody.AddForce(-transform.forward * 20000, ForceMode.Impulse);
+            if (!rb.TryGetComponent<Rigidbody>(out var rigidbody)) { return; }
+            if (Input.GetKeyDown(KeyCode.Return))
+            {
+                rigidbody.AddForce(-transform.forward * 20000, ForceMode.Impulse);
+                _coolTime = 0;
+            }
         }
     }
     public CarState GetCurrentState()

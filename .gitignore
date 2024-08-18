@@ -75,3 +75,4 @@ Assets/CartoonTracksPack1/Track1/Meshes/Track_Meshes/OvalModular/oval_mod_trees.
 Assets/CartoonTracksPack1/Track1/Meshes/Track_Meshes/OvalModular/oval_mod_trees.FBX
 Assets/CartoonTracksPack1/Track1/Textures/road_normal.png
 Assets/Scenes/SampleScene/OcclusionCullingData.asset
+*.hdr
