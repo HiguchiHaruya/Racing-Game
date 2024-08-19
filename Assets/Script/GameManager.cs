@@ -13,12 +13,14 @@ public class GameManager : MonoBehaviour
     [SerializeField]
     private Material _greenMaterial;
     private bool _isGameStart = false;
+    private bool _isGoal = false;
     private float _currentGameTime = 0f;
     private float _countDownTime = 7;
 
     public float CurrentGameTime => _currentGameTime;
     public float CountdownTime => _countDownTime;
     public bool IsGameStart => _isGameStart;
+    public bool IsGoal => _isGoal;
     public static GameManager Instance { get; private set; }
     private void Awake()
     {
@@ -39,6 +41,23 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         StartCountDown();
+        if (!IsGoalMethod())
+        {
+            _currentGameTime += Time.deltaTime;
+        }
+        else
+        {
+            _isGoal = true;
+        }
+    }
+
+    private bool IsGoalMethod()
+    {
+        if (Vehicle.Instance.LapCount >= 3)
+        {
+            return true;
+        }
+        return false;
     }
 
     private void StartCountDown()

@@ -13,11 +13,36 @@ public class CarUI : MonoBehaviour
     private Text _torqueText;
     [SerializeField]
     private Slider _coolTimeSlier;
+    [SerializeField]
+    private Image _driftLamp;
+    [SerializeField]
+    private Text _lapCountText;
+    [SerializeField]
+    private Text _resultTime;
     void Update()
     {
         SpeedoMeter();
         MaxSpeedParticle();
+        ChangeDriftLampColor();
         _coolTimeSlier.value = Vehicle.Instance.CoolTime;
+        _lapCountText.text = $"åªç›{Vehicle.Instance.LapCount.ToString()}é¸ñ⁄!!!!";
+
+        if (GameManager.Instance.IsGoal)
+        {
+            _resultTime.text = GameManager.Instance.CurrentGameTime.ToString();
+        }
+    }
+
+    private void ChangeDriftLampColor()
+    {
+        if (Vehicle.Instance.IsDrifting)
+        {
+            _driftLamp.color = Color.green;
+        }
+        else
+        {
+            _driftLamp.color = Color.white;
+        }
     }
 
     private void SpeedoMeter()

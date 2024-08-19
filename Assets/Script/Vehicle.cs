@@ -8,6 +8,8 @@ public class Vehicle : MonoBehaviour, ICar
     public static Vehicle Instance;
     [SerializeField]
     private float _maxTorque; //Max速度
+    [SerializeField]
+    private int _lapCount = 0;
     public float angle; //横移動角度
     public float brake; //ブレーキ力
     protected float _friction = 2f; //通常時のタイヤの摩擦
@@ -17,10 +19,13 @@ public class Vehicle : MonoBehaviour, ICar
     private float currentTime; //maxTimeを計測するための変数
     private float _coolTime = 0; //加速のクールタイム
     protected WheelCollider frontRight, frontLeft, rearRight, rearLeft; //タイヤ達
-    private CarState _currentState; 
+    private CarState _currentState;
+    private bool _isDrifting = false;
+    public int LapCount => _lapCount;
     public float MaxTorque => _maxTorque;
     public float Torque => _torque;
     public float CoolTime => _coolTime;
+    public bool IsDrifting => _isDrifting;
     protected virtual void Awake()
     {
         if (Instance == null)
@@ -55,7 +60,7 @@ public class Vehicle : MonoBehaviour, ICar
         if (-Input.GetAxis("Vertical") < 0)
         { //入力中にMax速度に達するまでの時間を計算して_torqueに値を入れる
             currentTime += Time.deltaTime / maxTime;
-            _torque = Mathf.Lerp(0, -1 * _maxTorque, currentTime); 
+            _torque = Mathf.Lerp(0, -1 * _maxTorque, currentTime);
         }
         else
         {
@@ -85,8 +90,13 @@ public class Vehicle : MonoBehaviour, ICar
     }
     public virtual void Drift()
     {
+        _isDrifting = false;
         WheelFrictionCurve sidewaysFriction = rearLeft.sidewaysFriction;
-        if (Input.GetKey(KeyCode.LeftShift)) { sidewaysFriction.stiffness = _driftFriction; }
+        if (Input.GetKey(KeyCode.LeftShift))
+        {
+            sidewaysFriction.stiffness = _driftFriction;
+            _isDrifting = true;
+        }
         else { sidewaysFriction.stiffness = _friction; }
 
         rearLeft.sidewaysFriction = sidewaysFriction;
@@ -109,6 +119,13 @@ public class Vehicle : MonoBehaviour, ICar
     public CarState GetCurrentState()
     {
         return _currentState;
+    }
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.CompareTag("Finish"))
+        {
+            _lapCount++;
+        }
     }
 }
 public enum CarState
