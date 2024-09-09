@@ -462,7 +462,7 @@ WheelCollider:
     m_ExtremumValue: 1.5
     m_AsymptoteSlip: 1
     m_AsymptoteValue: 0.75
-    m_Stiffness: 1
+    m_Stiffness: 1.3
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -5422,7 +5422,7 @@ WheelCollider:
     m_ExtremumValue: 1.5
     m_AsymptoteSlip: 1
     m_AsymptoteValue: 0.75
-    m_Stiffness: 1
+    m_Stiffness: 1.3
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -10601,6 +10601,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 2144557481}
+    - targetCorrespondingSourceObject: {fileID: 1740865480142414, guid: 663342408c5e6e24f8e0cb584631c6ad,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 2144557484}
     - targetCorrespondingSourceObject: {fileID: 1578029948469408, guid: 663342408c5e6e24f8e0cb584631c6ad,
         type: 3}
       insertIndex: -1
@@ -11794,7 +11798,7 @@ PrefabInstance:
     - target: {fileID: 5798724189896924608, guid: a3ce4271597121f44869d10a0a567d64,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 24.7
+      value: 28.4
       objectReference: {fileID: 0}
     - target: {fileID: 5798724189896924608, guid: a3ce4271597121f44869d10a0a567d64,
         type: 3}
@@ -11943,6 +11947,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: oval_mod_seats
+      objectReference: {fileID: 0}
+    - target: {fileID: 3452301412073482493, guid: 29941f1cf302e7c4fb5a208f889be20e,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 3452301412073482493, guid: 29941f1cf302e7c4fb5a208f889be20e,
         type: 3}
@@ -12177,7 +12186,7 @@ WheelCollider:
     m_ExtremumValue: 1.5
     m_AsymptoteSlip: 1
     m_AsymptoteValue: 0.75
-    m_Stiffness: 1
+    m_Stiffness: 1.3
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -12295,7 +12304,7 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_MaskInteraction: 0
   m_Autodestruct: 0
-  m_Emitting: 1
+  m_Emitting: 0
   m_ApplyActiveColorSpace: 1
 --- !u!1 &1235386907
 GameObject:
@@ -18291,7 +18300,7 @@ WheelCollider:
     m_ExtremumValue: 1.5
     m_AsymptoteSlip: 1
     m_AsymptoteValue: 0.75
-    m_Stiffness: 1
+    m_Stiffness: 1.3
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -18409,7 +18418,7 @@ TrailRenderer:
   m_MinVertexDistance: 0.1
   m_MaskInteraction: 0
   m_Autodestruct: 0
-  m_Emitting: 1
+  m_Emitting: 0
   m_ApplyActiveColorSpace: 1
 --- !u!1 &1705083831
 GameObject:
@@ -19323,6 +19332,22 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49ac208f0a2a2f04db8cc6fcaf6c3ab2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &2144557484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2144557472}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4e0adc217eb65304bb7b027f4a27b2ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _leftSmokeParticle: {fileID: 131857280}
+  _rightSmokeParticle: {fileID: 413864037}
+  _leftSlipEffect: {fileID: 1676368709}
+  _rightSlipEffect: {fileID: 1184867654}
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

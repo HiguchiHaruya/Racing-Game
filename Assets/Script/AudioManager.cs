@@ -33,7 +33,7 @@ public class AudioManager : MonoBehaviour
 
     private void CountDownSound()
     {
-        Debug.Log((int)GameManager.Instance.CountdownTime);
+        //Debug.Log((int)GameManager.Instance.CountdownTime);
         switch ((int)GameManager.Instance.CountdownTime)
         {
             case 7:
@@ -55,7 +55,7 @@ public class AudioManager : MonoBehaviour
             case 1:
                 break;
             case 0:
-                Debug.Log("すたーと！！");
+               // Debug.Log("すたーと！！");
                 break;
         }
     }
