@@ -452,16 +452,16 @@ WheelCollider:
   m_Mass: 20
   m_WheelDampingRate: 0.0001
   m_ForwardFriction:
-    m_ExtremumSlip: 0.4
-    m_ExtremumValue: 1
-    m_AsymptoteSlip: 0.8
-    m_AsymptoteValue: 0.5
-    m_Stiffness: 1
+    m_ExtremumSlip: 0.7
+    m_ExtremumValue: 2
+    m_AsymptoteSlip: 0.25
+    m_AsymptoteValue: 0.6
+    m_Stiffness: 1.3
   m_SidewaysFriction:
-    m_ExtremumSlip: 0.5
-    m_ExtremumValue: 1.5
-    m_AsymptoteSlip: 1
-    m_AsymptoteValue: 0.75
+    m_ExtremumSlip: 0.7
+    m_ExtremumValue: 2
+    m_AsymptoteSlip: 0.25
+    m_AsymptoteValue: 0.6
     m_Stiffness: 1.3
   m_IncludeLayers:
     serializedVersion: 2
@@ -5412,16 +5412,16 @@ WheelCollider:
   m_Mass: 20
   m_WheelDampingRate: 0.0001
   m_ForwardFriction:
-    m_ExtremumSlip: 0.4
-    m_ExtremumValue: 1
-    m_AsymptoteSlip: 0.8
-    m_AsymptoteValue: 0.5
-    m_Stiffness: 1
+    m_ExtremumSlip: 0.7
+    m_ExtremumValue: 2
+    m_AsymptoteSlip: 0.25
+    m_AsymptoteValue: 0.6
+    m_Stiffness: 1.3
   m_SidewaysFriction:
-    m_ExtremumSlip: 0.5
-    m_ExtremumValue: 1.5
-    m_AsymptoteSlip: 1
-    m_AsymptoteValue: 0.75
+    m_ExtremumSlip: 0.7
+    m_ExtremumValue: 2
+    m_AsymptoteSlip: 0.25
+    m_AsymptoteValue: 0.6
     m_Stiffness: 1.3
   m_IncludeLayers:
     serializedVersion: 2
@@ -10362,11 +10362,11 @@ Transform:
   m_GameObject: {fileID: 455406286}
   serializedVersion: 2
   m_LocalRotation: {x: -0.7071068, y: -0, z: -0, w: 0.7071068}
-  m_LocalPosition: {x: -349.5101, y: 0, z: -134.01874}
+  m_LocalPosition: {x: 81.20743, y: -3.569114, z: -135.42511}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 1820698537}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &515362633
 PrefabInstance:
@@ -11649,6 +11649,12 @@ PrefabInstance:
       insertIndex: -1
       addedObject: {fileID: 651417448}
   m_SourcePrefab: {fileID: 100100000, guid: 663342408c5e6e24f8e0cb584631c6ad, type: 3}
+--- !u!4 &938095546 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 5798724189896924608, guid: a3ce4271597121f44869d10a0a567d64,
+    type: 3}
+  m_PrefabInstance: {fileID: 992164937}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &963194225
 GameObject:
   m_ObjectHideFlags: 0
@@ -11783,22 +11789,22 @@ PrefabInstance:
   serializedVersion: 2
   m_Modification:
     serializedVersion: 3
-    m_TransformParent: {fileID: 0}
+    m_TransformParent: {fileID: 1820698537}
     m_Modifications:
     - target: {fileID: 5798724189896924608, guid: a3ce4271597121f44869d10a0a567d64,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -347
+      value: 77.91754
       objectReference: {fileID: 0}
     - target: {fileID: 5798724189896924608, guid: a3ce4271597121f44869d10a0a567d64,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -0.000045776367
+      value: -3.5691597
       objectReference: {fileID: 0}
     - target: {fileID: 5798724189896924608, guid: a3ce4271597121f44869d10a0a567d64,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 28.4
+      value: 26.993635
       objectReference: {fileID: 0}
     - target: {fileID: 5798724189896924608, guid: a3ce4271597121f44869d10a0a567d64,
         type: 3}
@@ -11808,17 +11814,17 @@ PrefabInstance:
     - target: {fileID: 5798724189896924608, guid: a3ce4271597121f44869d10a0a567d64,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5798724189896924608, guid: a3ce4271597121f44869d10a0a567d64,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5798724189896924608, guid: a3ce4271597121f44869d10a0a567d64,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -0
       objectReference: {fileID: 0}
     - target: {fileID: 5798724189896924608, guid: a3ce4271597121f44869d10a0a567d64,
         type: 3}
@@ -12176,16 +12182,16 @@ WheelCollider:
   m_Mass: 20
   m_WheelDampingRate: 0.0001
   m_ForwardFriction:
-    m_ExtremumSlip: 0.4
-    m_ExtremumValue: 1
-    m_AsymptoteSlip: 0.8
-    m_AsymptoteValue: 0.5
-    m_Stiffness: 1
+    m_ExtremumSlip: 0.7
+    m_ExtremumValue: 2
+    m_AsymptoteSlip: 0.25
+    m_AsymptoteValue: 0.6
+    m_Stiffness: 1.3
   m_SidewaysFriction:
-    m_ExtremumSlip: 0.5
-    m_ExtremumValue: 1.5
-    m_AsymptoteSlip: 1
-    m_AsymptoteValue: 0.75
+    m_ExtremumSlip: 0.7
+    m_ExtremumValue: 2
+    m_AsymptoteSlip: 0.25
+    m_AsymptoteValue: 0.6
     m_Stiffness: 1.3
   m_IncludeLayers:
     serializedVersion: 2
@@ -18290,16 +18296,16 @@ WheelCollider:
   m_Mass: 20
   m_WheelDampingRate: 0.0001
   m_ForwardFriction:
-    m_ExtremumSlip: 0.4
-    m_ExtremumValue: 1
-    m_AsymptoteSlip: 0.8
-    m_AsymptoteValue: 0.5
-    m_Stiffness: 1
+    m_ExtremumSlip: 0.7
+    m_ExtremumValue: 2
+    m_AsymptoteSlip: 0.25
+    m_AsymptoteValue: 0.6
+    m_Stiffness: 1.3
   m_SidewaysFriction:
-    m_ExtremumSlip: 0.5
-    m_ExtremumValue: 1.5
-    m_AsymptoteSlip: 1
-    m_AsymptoteValue: 0.75
+    m_ExtremumSlip: 0.7
+    m_ExtremumValue: 2
+    m_AsymptoteSlip: 0.25
+    m_AsymptoteValue: 0.6
     m_Stiffness: 1.3
   m_IncludeLayers:
     serializedVersion: 2
@@ -18894,6 +18900,8 @@ Transform:
   - {fileID: 316899943}
   - {fileID: 1592187443}
   - {fileID: 722385723}
+  - {fileID: 938095546}
+  - {fileID: 455406290}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1915300877
@@ -19312,10 +19320,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f5d2f16595399b4cbe076b0a2e4590f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxTorque: 2400
+  _maxTorque: 800
   _lapCount: 0
-  angle: 75
+  angle: 45
   brake: 90000
+  _driftAngle: 5
+  _tiltSpeed: 5
   _frontRight: {fileID: 327766825}
   _frontLeft: {fileID: 110103578}
   _rearRight: {fileID: 1184867650}
@@ -19361,8 +19371,6 @@ SceneRoots:
   - {fileID: 1235386910}
   - {fileID: 1820698537}
   - {fileID: 1256559286}
-  - {fileID: 455406290}
   - {fileID: 1705083832}
   - {fileID: 1293227358}
   - {fileID: 928947785}
-  - {fileID: 992164937}

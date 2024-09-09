@@ -7,8 +7,13 @@ using UnityEngine.ProBuilder.Shapes;
 public class WheelController : Vehicle, ICar
 {
     [SerializeField]
+    private float _driftAngle = 10f;
+    [SerializeField]
+    private float _tiltSpeed = 5f;
+    [SerializeField]
     WheelCollider _frontRight, _frontLeft, _rearRight, _rearLeft;
     Rigidbody _rb;
+    Transform _carbody;
    protected override void Awake()
     {
         base.Awake();
@@ -35,10 +40,15 @@ public class WheelController : Vehicle, ICar
         Precession();
         Breake();
         Acceleration(_rb);
+        ApplyCarTilt(_carbody,_driftAngle,_tiltSpeed);
     }
     public override void MoveSideways()
     {
         base.MoveSideways();
+    }
+    public override void ApplyCarTilt(Transform carBody, float tiltAngle, float tiltSpeed)
+    {
+        base.ApplyCarTilt(carBody, tiltAngle, tiltSpeed);
     }
     public override void Precession()
     {

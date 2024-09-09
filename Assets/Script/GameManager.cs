@@ -12,7 +12,7 @@ public class GameManager : MonoBehaviour
     private Renderer _startLights3;
     [SerializeField]
     private Material _greenMaterial;
-    private bool _isGameStart = false;
+    private bool _isGameStart = true;
     private bool _isGoal = false;
     private float _currentGameTime = 0f;
     private float _countDownTime = 7;

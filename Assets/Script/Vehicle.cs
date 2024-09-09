@@ -83,6 +83,14 @@ public class Vehicle : MonoBehaviour, ICar
         float steer = angle * Input.GetAxis("Horizontal");
         frontLeft.steerAngle = steer;
         frontRight.steerAngle = steer;
+
+    }
+    public virtual void ApplyCarTilt(Transform carBody, float tiltAngle, float tiltSpeed)
+    {
+        float targetTilt = Input.GetAxis("Horizontal") * tiltAngle;
+        Vector3 newAngle = carBody.localEulerAngles;
+        newAngle.z = Mathf.LerpAngle(carBody.localEulerAngles.z, targetTilt, Time.deltaTime * tiltSpeed); //傾きをスムーズにする為にLerpを使う
+        carBody.localEulerAngles = newAngle; //車体の回転を更新
     }
     public virtual void Breake()
     {

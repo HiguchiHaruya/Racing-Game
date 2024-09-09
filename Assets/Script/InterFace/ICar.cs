@@ -8,5 +8,6 @@ interface ICar
     void MoveSideways();
     void Breake();
     void Drift();
+    void ApplyCarTilt(Transform carBody, float tiltAngle, float tiltSpeed);
     void Acceleration(Rigidbody rb);
 }
