@@ -20,6 +20,7 @@ public class WheelController : Vehicle, ICar
     }
     private void Start()
     {
+        _carbody = this.transform;
         _rb = GetComponent<Rigidbody>();
         RegisterTire();
     }

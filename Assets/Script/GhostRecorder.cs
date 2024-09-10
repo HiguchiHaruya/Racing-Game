@@ -3,9 +3,22 @@ using UnityEngine;
 
 public class GhostRecorder : MonoBehaviour
 {
-    private List<GhostFrame> _ghostFrames = new List<GhostFrame>();
+    public static GhostRecorder Instance;
+    ///  <summary>プレイヤー車の動きを記録するためのリスト</summary>
+    private List<GhostFrame> _recordGhostFrames = new List<GhostFrame>();
     private bool _isRecording = true;
-
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(gameObject);
+        }
+    }
     void Update()
     {
         if (_isRecording)
@@ -13,20 +26,25 @@ public class GhostRecorder : MonoBehaviour
             RecordFrame();
         }
     }
-
+    /// <summary>
+    /// frameに記録してリストに追加
+    /// </summary>
     private void RecordFrame()
     {
-        GhostFrame frame = new GhostFrame
+        GhostFrame frame = new GhostFrame 
         {
             Position = transform.position,
             Rotation = transform.rotation
         };
-        _ghostFrames.Add(frame);
+        _recordGhostFrames.Add(frame);
     }
-
+    /// <summary>
+    /// 呼び出し元に_recordGhostFramesを返す
+    /// </summary>
+    /// <returns>プレイヤーの車の動きが入ってるリスト</returns>
     public List<GhostFrame> GetGhostData()
     {
-        return new List<GhostFrame>(_ghostFrames);
+        return new List<GhostFrame>(_recordGhostFrames); //_recordGhostFramesを新しいリストとしてコピーしてreturnする
     }
 
     public void StopRecording()
@@ -36,13 +54,13 @@ public class GhostRecorder : MonoBehaviour
 
     public void StartRecording()
     {
-        _ghostFrames.Clear();
+        _recordGhostFrames.Clear();
         _isRecording = true;
     }
 }
 
 [System.Serializable]
-public struct GhostFrame
+public struct GhostFrame 
 {
     public Vector3 Position;
     public Quaternion Rotation;
