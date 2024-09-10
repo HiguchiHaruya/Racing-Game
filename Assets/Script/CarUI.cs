@@ -25,7 +25,7 @@ public class CarUI : MonoBehaviour
         MaxSpeedParticle();
         ChangeDriftLampColor();
         _coolTimeSlier.value = Vehicle.Instance.CoolTime;
-        _lapCountText.text = $"åªç›{Vehicle.Instance.LapCount.ToString()}é¸ñ⁄!!!!";
+        _lapCountText.text = $"LAP {Vehicle.Instance.LapCount.ToString()} / 3";
 
         if (GameManager.Instance.IsGoal)
         {
