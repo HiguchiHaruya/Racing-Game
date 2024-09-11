@@ -7,7 +7,7 @@ public class GhostCarManager : MonoBehaviour
     private int _firstRunCounter = 0;
     private void Update()
     {
-        switch (Vehicle.Instance.LapCount)
+        switch (Vehicle.Instance.LapCount) //Œ»İ‚ÌLap”‚É‰‚¶‚Äˆ—‚·‚é
         {
             case 0:
                 break;

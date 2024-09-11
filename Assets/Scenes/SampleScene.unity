@@ -428,7 +428,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 1, g: 1, b: 1, a: 1}
   m_projectionMatrixMode: 1
   m_GateFitMode: 2
   m_FOVAxisMode: 0
@@ -505,21 +505,21 @@ WheelCollider:
     damper: 4500
     targetPosition: 0.5
   m_SuspensionDistance: 0.15
-  m_ForceAppPointDistance: 0.04
+  m_ForceAppPointDistance: 0.02
   m_Mass: 20
   m_WheelDampingRate: 0.0001
   m_ForwardFriction:
-    m_ExtremumSlip: 0.7
-    m_ExtremumValue: 2
-    m_AsymptoteSlip: 0.25
-    m_AsymptoteValue: 0.6
-    m_Stiffness: 1.3
+    m_ExtremumSlip: 0.3
+    m_ExtremumValue: 1
+    m_AsymptoteSlip: 0.8
+    m_AsymptoteValue: 0.5
+    m_Stiffness: 3
   m_SidewaysFriction:
-    m_ExtremumSlip: 0.7
-    m_ExtremumValue: 2
-    m_AsymptoteSlip: 0.25
-    m_AsymptoteValue: 0.6
-    m_Stiffness: 1.3
+    m_ExtremumSlip: 1
+    m_ExtremumValue: 3
+    m_AsymptoteSlip: 1
+    m_AsymptoteValue: 1.3
+    m_Stiffness: 3
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -5510,21 +5510,21 @@ WheelCollider:
     damper: 4500
     targetPosition: 0.5
   m_SuspensionDistance: 0.15
-  m_ForceAppPointDistance: 0.04
+  m_ForceAppPointDistance: 0.02
   m_Mass: 20
   m_WheelDampingRate: 0.0001
   m_ForwardFriction:
-    m_ExtremumSlip: 0.7
-    m_ExtremumValue: 2
-    m_AsymptoteSlip: 0.25
-    m_AsymptoteValue: 0.6
-    m_Stiffness: 1.3
+    m_ExtremumSlip: 0.3
+    m_ExtremumValue: 1
+    m_AsymptoteSlip: 0.8
+    m_AsymptoteValue: 0.5
+    m_Stiffness: 3
   m_SidewaysFriction:
-    m_ExtremumSlip: 0.7
-    m_ExtremumValue: 2
-    m_AsymptoteSlip: 0.25
-    m_AsymptoteValue: 0.6
-    m_Stiffness: 1.3
+    m_ExtremumSlip: 1
+    m_ExtremumValue: 3
+    m_AsymptoteSlip: 1
+    m_AsymptoteValue: 1.3
+    m_Stiffness: 3
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -11827,7 +11827,7 @@ Camera:
   m_Depth: -1
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 16183
+    m_Bits: 32567
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -12284,21 +12284,21 @@ WheelCollider:
     damper: 4500
     targetPosition: 0.5
   m_SuspensionDistance: 0.15
-  m_ForceAppPointDistance: 0.04
+  m_ForceAppPointDistance: 0.02
   m_Mass: 20
   m_WheelDampingRate: 0.0001
   m_ForwardFriction:
-    m_ExtremumSlip: 0.7
-    m_ExtremumValue: 2
-    m_AsymptoteSlip: 0.25
-    m_AsymptoteValue: 0.6
-    m_Stiffness: 1.3
+    m_ExtremumSlip: 0.3
+    m_ExtremumValue: 1
+    m_AsymptoteSlip: 0.8
+    m_AsymptoteValue: 0.5
+    m_Stiffness: 3
   m_SidewaysFriction:
-    m_ExtremumSlip: 0.7
-    m_ExtremumValue: 2
-    m_AsymptoteSlip: 0.25
-    m_AsymptoteValue: 0.6
-    m_Stiffness: 1.3
+    m_ExtremumSlip: 1
+    m_ExtremumValue: 3
+    m_AsymptoteSlip: 1
+    m_AsymptoteValue: 1.3
+    m_Stiffness: 3
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0
@@ -13431,7 +13431,7 @@ GameObject:
   - component: {fileID: 1496586878}
   - component: {fileID: 1496586880}
   - component: {fileID: 1496586879}
-  m_Layer: 0
+  m_Layer: 14
   m_Name: SaturatedLine
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -18436,13 +18436,13 @@ Camera:
     height: 1
   near clip plane: 0.3
   far clip plane: 1000
-  field of view: 81.5
+  field of view: 75.5
   orthographic: 0
   orthographic size: 5
   m_Depth: -2
   m_CullingMask:
     serializedVersion: 2
-    m_Bits: 4294967295
+    m_Bits: 16183
   m_RenderingPath: -1
   m_TargetTexture: {fileID: 0}
   m_TargetDisplay: 0
@@ -18462,13 +18462,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1664301185}
   serializedVersion: 2
-  m_LocalRotation: {x: -0.2218917, y: 0.014074415, z: -0.0032031909, w: -0.9749645}
-  m_LocalPosition: {x: -0.10936189, y: 3.59, z: -6.605916}
+  m_LocalRotation: {x: 0.22191443, y: 0, z: 0, w: 0.9750662}
+  m_LocalPosition: {x: -0.02, y: 1.6, z: -4.07}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
   m_Father: {fileID: 2144557475}
-  m_LocalEulerAnglesHint: {x: 25.643, y: -90, z: 0}
+  m_LocalEulerAnglesHint: {x: 25.643, y: 0, z: 0}
 --- !u!1 &1676368701 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1578029948469408, guid: 663342408c5e6e24f8e0cb584631c6ad,
@@ -18490,21 +18490,21 @@ WheelCollider:
     damper: 4500
     targetPosition: 0.5
   m_SuspensionDistance: 0.15
-  m_ForceAppPointDistance: 0.04
+  m_ForceAppPointDistance: 0.02
   m_Mass: 20
   m_WheelDampingRate: 0.0001
   m_ForwardFriction:
-    m_ExtremumSlip: 0.7
-    m_ExtremumValue: 2
-    m_AsymptoteSlip: 0.25
-    m_AsymptoteValue: 0.6
-    m_Stiffness: 1.3
+    m_ExtremumSlip: 0.3
+    m_ExtremumValue: 1
+    m_AsymptoteSlip: 0.8
+    m_AsymptoteValue: 0.5
+    m_Stiffness: 3
   m_SidewaysFriction:
-    m_ExtremumSlip: 0.7
-    m_ExtremumValue: 2
-    m_AsymptoteSlip: 0.25
-    m_AsymptoteValue: 0.6
-    m_Stiffness: 1.3
+    m_ExtremumSlip: 1
+    m_ExtremumValue: 3
+    m_AsymptoteSlip: 1
+    m_AsymptoteValue: 1.3
+    m_Stiffness: 3
   m_IncludeLayers:
     serializedVersion: 2
     m_Bits: 0

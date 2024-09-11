@@ -12,8 +12,8 @@ public class Vehicle : MonoBehaviour, ICar
     private int _lapCount = 0;
     public float angle; //横移動角度
     public float brake; //ブレーキ力
-    protected float _friction = 2.5f; //通常時のタイヤの摩擦
-    protected float _driftFriction = 1.3f; //ドリフト時のStiffness
+    protected float _friction = 3f; //通常時のタイヤの摩擦
+    protected float _driftFriction = 2.2f; //ドリフト時のStiffness
     private float _torque = 0; //現在の速度
     private float _maxTime = 1f; //最高速度に達するまでの時間
     private float _currentTime; //maxTimeを計測するための変数
@@ -110,7 +110,7 @@ public class Vehicle : MonoBehaviour, ICar
         {
             _targetFriction = _driftFriction;
             sidewaysFriction.stiffness = _currentStiffness;
-            if (sidewaysFriction.stiffness <= _effectFriction) { _isDrifting = true; }
+            if (sidewaysFriction.stiffness <= _driftFriction + 0.01) { _isDrifting = true; } 
         }
         else
         {
