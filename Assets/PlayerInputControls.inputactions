@@ -1,0 +1,34 @@
+{
+    "name": "PlayerInputControls",
+    "maps": [
+        {
+            "name": "PlayerActionMap",
+            "id": "b2f0b3ea-d884-4334-b862-4bbbeafb2151",
+            "actions": [
+                {
+                    "name": "Drift",
+                    "type": "Button",
+                    "id": "6a98c0b5-25e7-4037-bc7e-af85052c90ec",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "5c3ffc73-48d2-4cad-be3a-2ad00580fa83",
+                    "path": "<Keyboard>/leftShift",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Drift",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

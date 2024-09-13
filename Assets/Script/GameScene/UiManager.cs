@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class CarUI : MonoBehaviour
+public class UiManager : MonoBehaviour
 {
     [SerializeField]
     private ParticleSystem _saturatedLine;
@@ -18,18 +18,22 @@ public class CarUI : MonoBehaviour
     [SerializeField]
     private Text _lapCountText;
     [SerializeField]
-    private Text _resultTime;
+    private Text CurrentTime;
     void Update()
     {
         SpeedoMeter();
         MaxSpeedParticle();
         ChangeDriftLampColor();
+        DisplayCarData();
+    }
+
+    private void DisplayCarData()
+    {
         _coolTimeSlier.value = Vehicle.Instance.CoolTime;
         _lapCountText.text = $"LAP {Vehicle.Instance.LapCount.ToString()} / 3";
-
-        if (GameManager.Instance.IsGoal)
+        if (GameManager.Instance.IsGameStart)
         {
-            _resultTime.text = GameManager.Instance.CurrentGameTime.ToString();
+            CurrentTime.text = GameManager.Instance.CurrentGameTime.ToString("F2");
         }
     }
 
