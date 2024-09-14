@@ -53,7 +53,7 @@ public class GameManager : MonoBehaviour
 
     private bool IsGoalMethod()
     {
-        if (Vehicle.Instance.LapCount >= 3)
+        if (Vehicle.Instance.LapCount == 4)
         {
             return true;
         }

@@ -9,7 +9,7 @@ public class Vehicle : MonoBehaviour, ICar
     [SerializeField]
     private float _maxTorque; //Max速度
     [SerializeField]
-    private int _lapCount = 0;
+    private int _lapCount = 1;
     public float angle; //横移動角度
     public float brake; //ブレーキ力
     protected float _friction = 3f; //通常時のタイヤの摩擦
@@ -26,6 +26,7 @@ public class Vehicle : MonoBehaviour, ICar
     protected WheelCollider frontRight, frontLeft, rearRight, rearLeft; //タイヤ達
     private CarState _currentState;
     private bool _isDrifting = false;
+    private bool _isFirstRun = false;
     public int LapCount => _lapCount;
     public float MaxTorque => _maxTorque;
     public float Torque => _torque;
@@ -46,6 +47,7 @@ public class Vehicle : MonoBehaviour, ICar
     private void Start()
     {
         _currentState = CarState.Idle;
+        _lapCount = 1;
     }
     private void Update()
     {

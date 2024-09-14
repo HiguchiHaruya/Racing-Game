@@ -30,7 +30,10 @@ public class UiManager : MonoBehaviour
     private void DisplayCarData()
     {
         _coolTimeSlier.value = Vehicle.Instance.CoolTime;
-        _lapCountText.text = $"LAP {Vehicle.Instance.LapCount.ToString()} / 3";
+        if (Vehicle.Instance.LapCount < 4)
+        {
+            _lapCountText.text = $"LAP {Vehicle.Instance.LapCount.ToString()} / 3";
+        }
         if (GameManager.Instance.IsGameStart)
         {
             CurrentTime.text = GameManager.Instance.CurrentGameTime.ToString("F2");

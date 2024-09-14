@@ -28,12 +28,4 @@ public class InputManager : MonoBehaviour
         }
         else { Debug.Log("‚Ê‚é‚Å‚·1"); }
     }
-    //private void OnDisable()
-    //{
-    //    if (_inputActions != null)
-    //    {
-    //        _inputActions.Disable();
-    //    }
-    //    else { Debug.Log("‚Ê‚é‚Å‚·2"); }
-    //}
 }
