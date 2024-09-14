@@ -8,18 +8,19 @@ public class KeyRebind : MonoBehaviour
 {
     private Button _rebindButton;
     [SerializeField]
-    private string actionName;
+    private string _actionName;
     [SerializeField]
     private GameObject _waitingKeyPanel;
+    [SerializeField]
+    private Text _currentActionNameText;
     private InputAction _targetAction;
     private void Start()
     {
         _waitingKeyPanel.gameObject.SetActive(false);
         _rebindButton = GetComponent<Button>();
-        _targetAction = InputManager.Instance._inputActions.FindAction(actionName, false); //指定したアクションを取得する
-        var b = _targetAction.bindings;
-        foreach (var binding in b)
-            _rebindButton.onClick.AddListener(StartRebind);
+        _targetAction = InputManager.Instance._inputActions.FindAction(_actionName, false); //指定したアクションを取得する
+        _currentActionNameText.text = _targetAction.GetBindingDisplayString();
+        _rebindButton.onClick.AddListener(StartRebind);
     }
     private void StartRebind()
     {
@@ -32,7 +33,8 @@ public class KeyRebind : MonoBehaviour
             {
                 var currentBinding = operation.action.bindings[0];
                 Debug.Log($"アクション {currentBinding.name}  {currentBinding.effectivePath}キーに変更されました");
-                Debug.Log($"{actionName} リバインド準備完了");
+                Debug.Log($"{_actionName} リバインド準備完了");
+                _currentActionNameText.text = currentBinding.effectivePath;
                 if (_waitingKeyPanel != null) { _waitingKeyPanel.gameObject.SetActive(false); }
             })
             .Start(); //リバインドを実行

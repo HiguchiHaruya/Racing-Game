@@ -15,17 +15,25 @@ public class InputManager : MonoBehaviour
             _inputActions = new OriginalInputControlsClass();
             DontDestroyOnLoad(gameObject);
         }
-        else
+        else if (Instance != null)
         {
             Destroy(gameObject);
         }
     }
     private void OnEnable()
     {
-        _inputActions.Enable();
+        if (_inputActions != null)
+        {
+            _inputActions.Enable();
+        }
+        else { Debug.Log("‚Ê‚é‚Å‚·1"); }
     }
-    private void OnDisable()
-    {
-        _inputActions.Disable();
-    }
+    //private void OnDisable()
+    //{
+    //    if (_inputActions != null)
+    //    {
+    //        _inputActions.Disable();
+    //    }
+    //    else { Debug.Log("‚Ê‚é‚Å‚·2"); }
+    //}
 }

@@ -22,22 +22,18 @@ public class SceneTransitionManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    public void LoadSceneAsync(string sceneName)
+    private void Update()
     {
         Debug.Log($"アクティブフラグ : {gameObject.activeInHierarchy}");
-        if (!gameObject.activeInHierarchy)
-        {
-            gameObject.SetActive(true);   
-        }
+    }
+    public void LoadSceneAsync(string sceneName)
+    {
+        gameObject.SetActive(true);
         StartCoroutine(LoadSceneCoroutine(sceneName));
+        gameObject.SetActive(true);
     }
     private IEnumerator LoadSceneCoroutine(string sceneName)
     {
-        if (!gameObject.activeInHierarchy)
-        {
-            Debug.LogWarning("nullですよ");
-            yield break;
-        }
         AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName); //シーンの非同期読み込み
         asyncLoad.allowSceneActivation = false; //ロード完了後に勝手にシーン移行されないようにfalseにしとく
         float fadeDuration = 3.0f;
