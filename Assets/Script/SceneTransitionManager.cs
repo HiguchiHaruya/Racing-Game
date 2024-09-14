@@ -16,24 +16,29 @@ public class SceneTransitionManager : MonoBehaviour
         {
             Instance = this;
             DontDestroyOnLoad(gameObject);
-            DontDestroyOnLoad(_fadeImage);
         }
         else
         {
             Destroy(gameObject);
         }
     }
-    private void Start()
-    {
-
-    }
     public void LoadSceneAsync(string sceneName)
     {
+        Debug.Log($"アクティブフラグ : {gameObject.activeInHierarchy}");
+        if (!gameObject.activeInHierarchy)
+        {
+            gameObject.SetActive(true);   
+        }
         StartCoroutine(LoadSceneCoroutine(sceneName));
     }
     private IEnumerator LoadSceneCoroutine(string sceneName)
     {
-        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+        if (!gameObject.activeInHierarchy)
+        {
+            Debug.LogWarning("nullですよ");
+            yield break;
+        }
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName); //シーンの非同期読み込み
         asyncLoad.allowSceneActivation = false; //ロード完了後に勝手にシーン移行されないようにfalseにしとく
         float fadeDuration = 3.0f;
         float timer = 0;
@@ -50,7 +55,7 @@ public class SceneTransitionManager : MonoBehaviour
             Debug.Log($"ロード中...{asyncLoad.progress}");
             yield return null;
         }
-        if (_fadeImage != null) { _fadeImage.enabled = false; }
+        if (_fadeImage != null) { _fadeImage.color = new Color(0, 0, 0, 0); }
         else { Debug.Log("イメージnull"); }
         asyncLoad.allowSceneActivation = true; //シーン移行
     }

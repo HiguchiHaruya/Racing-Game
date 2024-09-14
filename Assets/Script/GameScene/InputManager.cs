@@ -13,10 +13,19 @@ public class InputManager : MonoBehaviour
         {
             Instance = this;
             _inputActions = new OriginalInputControlsClass();
+            DontDestroyOnLoad(gameObject);
         }
         else
         {
             Destroy(gameObject);
         }
+    }
+    private void OnEnable()
+    {
+        _inputActions.Enable();
+    }
+    private void OnDisable()
+    {
+        _inputActions.Disable();
     }
 }

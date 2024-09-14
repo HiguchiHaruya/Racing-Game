@@ -22,6 +22,7 @@ public class Vehicle : MonoBehaviour, ICar
     private float _targetFriction = 2;
     private float _currentStiffness = 2f; //現在のStiffness
     private float _effectFriction = 1.39f; //エフェクトが出るStiffness値
+    float steer = 0;
     protected WheelCollider frontRight, frontLeft, rearRight, rearLeft; //タイヤ達
     private CarState _currentState;
     private bool _isDrifting = false;
@@ -61,7 +62,9 @@ public class Vehicle : MonoBehaviour, ICar
     public virtual void Precession()
     {
         _currentTime = Mathf.Min(_currentTime, _maxTime);
-        if (-Input.GetAxis("Vertical") < 0)
+        var input = InputManager.Instance._inputActions.PlayerActionMap.MoveForward.ReadValue<float>();
+        // Debug.Log($"inputValue : {input}");
+        if (-input < 0)
         { //入力中にMax速度に達するまでの時間を計算して_torqueに値を入れる
             _currentTime += Time.deltaTime / _maxTime;
             _torque = Mathf.Lerp(0, -1 * _maxTorque, _currentTime);
@@ -80,10 +83,23 @@ public class Vehicle : MonoBehaviour, ICar
     /// <summary>横移動メソッド </summary>
     public virtual void MoveSideways()
     {
-        float steer = angle * Input.GetAxis("Horizontal");
+        var leftInput = InputManager.Instance._inputActions.PlayerActionMap.MoveLeft.ReadValue<float>();
+        var rightInput = InputManager.Instance._inputActions.PlayerActionMap.MoveRight.ReadValue<float>();
+        Debug.Log($"steer : {steer}");
+        if (leftInput > 0)
+        {
+            steer = angle * -leftInput;
+        }
+        else if (rightInput > 0)
+        {
+            steer = angle * rightInput;
+        }
+        else
+        {
+            steer = 0;
+        }
         frontLeft.steerAngle = steer;
         frontRight.steerAngle = steer;
-
     }
     public virtual void ApplyCarTilt(Transform carBody, float tiltAngle, float tiltSpeed)
     {
@@ -94,7 +110,8 @@ public class Vehicle : MonoBehaviour, ICar
     }
     public virtual void Breake()
     {
-        float brakeforce = Input.GetKey(KeyCode.Space) ? brake : 0;
+        var breakeInput = InputManager.Instance._inputActions.PlayerActionMap.Brake.ReadValue<float>();
+        float brakeforce = breakeInput > 0 ? brake : 0;
         frontLeft.brakeTorque = brakeforce;
         frontRight.brakeTorque = brakeforce;
         rearLeft.brakeTorque = brakeforce;
@@ -102,15 +119,16 @@ public class Vehicle : MonoBehaviour, ICar
     }
     public virtual void Drift()
     {
-        Debug.Log(rearLeft.sidewaysFriction.stiffness);
+        var driftInput = InputManager.Instance._inputActions.PlayerActionMap.Drift.ReadValue<float>();
+        //Debug.Log(rearLeft.sidewaysFriction.stiffness);
         _isDrifting = false;
         WheelFrictionCurve sidewaysFriction = rearLeft.sidewaysFriction;
         _currentStiffness = Mathf.Lerp(_currentStiffness, _targetFriction, Time.deltaTime * _driftTransitionSpeed);
-        if (Input.GetKey(KeyCode.LeftShift))
+        if (driftInput > 0)
         {
             _targetFriction = _driftFriction;
             sidewaysFriction.stiffness = _currentStiffness;
-            if (sidewaysFriction.stiffness <= _driftFriction + 0.01) { _isDrifting = true; } 
+            if (sidewaysFriction.stiffness <= _driftFriction + 0.01) { _isDrifting = true; }
         }
         else
         {
