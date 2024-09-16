@@ -13,6 +13,8 @@ public class StartSceneManager : MonoBehaviour
     Button _transitionToGameButton;
     [SerializeField]
     string _transitionToGameText;
+    [SerializeField]
+    private InputField _playerName;
     private void Start()
     {
         _transitionToConfigButton

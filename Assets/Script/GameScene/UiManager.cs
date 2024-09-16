@@ -60,6 +60,7 @@ public class UiManager : MonoBehaviour
 
     private void MaxSpeedParticle()
     {
+        if (_saturatedLine == null) return;
         if (Mathf.Abs(Vehicle.Instance.Torque) >= Vehicle.Instance.MaxTorque)
         {
             _saturatedLine.Play();

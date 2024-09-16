@@ -10763,7 +10763,7 @@ GameObject:
   - component: {fileID: 567204669}
   - component: {fileID: 567204668}
   m_Layer: 0
-  m_Name: Audio
+  m_Name: DriftSound
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10779,9 +10779,9 @@ AudioSource:
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 0.1
+  m_audioClip: {fileID: 8300000, guid: 9eb4432dcfbb0194d99334832d56e5a2, type: 3}
+  m_PlayOnAwake: 0
+  m_Volume: 0.5
   m_Pitch: 1
   Loop: 0
   Mute: 0
@@ -12910,6 +12910,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1248176127}
   - component: {fileID: 1248176129}
+  - component: {fileID: 1248176130}
   m_Layer: 0
   m_Name: EngineSound
   m_TagString: Untagged
@@ -12944,11 +12945,108 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c991b628fcc3d9d40a2f8e9659047323, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _carAudio: {fileID: 567204668}
+  _carAudio: {fileID: 1248176130}
+  _driftSoundAudio: {fileID: 567204668}
   _clip:
   - {fileID: 8300000, guid: c502041826854664683f9914f63427b0, type: 3}
   - {fileID: 8300000, guid: ee68262e7a73a4c4b8e940ecd2330b7b, type: 3}
   - {fileID: 8300000, guid: 1a28469b66ddc3f4394165b2634f368d, type: 3}
+--- !u!82 &1248176130
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1248176126}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 1
+  m_Volume: 0.1
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1256559285
 GameObject:
   m_ObjectHideFlags: 0
@@ -19660,7 +19758,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _maxTorque: 800
   _lapCount: 0
-  angle: 7.5
+  angle: 5
   brake: 90000
   _driftAngle: 5
   _tiltSpeed: 5

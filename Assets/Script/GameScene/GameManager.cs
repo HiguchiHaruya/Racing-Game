@@ -20,6 +20,7 @@ public class GameManager : MonoBehaviour
     private float _currentGameTime = 0f;
     private float _countDownTime = 7;
     private int _firstRun = 0;
+    public string playerName { private get; set; }
     public float CurrentGameTime => _currentGameTime;
     public float CountdownTime => _countDownTime;
     public bool IsGameStart => _isGameStart;
@@ -41,6 +42,7 @@ public class GameManager : MonoBehaviour
     private void Update()
     {
         StartCountDown();
+        LeaveGame();
         if (!GetIsGoalFlag())
         {
             _currentGameTime += Time.deltaTime;
@@ -62,7 +64,13 @@ public class GameManager : MonoBehaviour
             _firstRun++;
         }
     }
-
+    private void LeaveGame()
+    {
+        if (Input.GetKeyDown(KeyCode.Escape))
+        {
+            SceneTransitionManager.Instance.LoadSceneAsync("StartScene");
+        }
+    }
     private bool GetIsGoalFlag()
     {
         if (Vehicle.Instance.LapCount == 4)

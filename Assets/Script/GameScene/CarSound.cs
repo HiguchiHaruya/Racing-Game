@@ -8,6 +8,8 @@ public class CarSound : MonoBehaviour
     [SerializeField]
     private AudioSource _carAudio;
     [SerializeField]
+    private AudioSource _driftSoundAudio;
+    [SerializeField]
     private AudioClip[] _clip;
     private float _maxVolume = 1.0f;
     private float _minVolume = 0.2f;
@@ -16,12 +18,12 @@ public class CarSound : MonoBehaviour
     private bool _highSpeed = false;
     void Update()
     {
+        Debug.Log(Vehicle.Instance.IsDrifting);
         SelectSound();
     }
 
     private void SelectSound()
     {
-        //if (Vehicle.Instance.GetCurrentState() != _idle) { return; }
         switch (Vehicle.Instance.GetCurrentState())
         {
             case CarState.Idle:
@@ -34,6 +36,10 @@ public class CarSound : MonoBehaviour
                 PlayEngineSound(2);
                 break;
         }
+        if (!Vehicle.Instance.IsDrifting)
+        {
+            PlayDriftSound();
+        }
     }
 
     private void PlayEngineSound(int index)
@@ -42,11 +48,10 @@ public class CarSound : MonoBehaviour
         _carAudio.Stop();
         _carAudio.clip = _clip[index];
         _carAudio.Play();
-
-        //float speed = Vehicle.Instance.Torque;
-        //float pitch = Mathf.Lerp(_minPitch, _maxPitch, speed / Vehicle.Instance.MaxTorque);
-        //_carSound.pitch = pitch;
-        //float volume = Mathf.Lerp(_minVolume, _maxVolume, speed / Vehicle.Instance.MaxTorque);
-        //_carSound.volume = volume;
+    }
+    private void PlayDriftSound()
+    {
+        if(_driftSoundAudio == null) return;
+        _driftSoundAudio.Play();
     }
 }

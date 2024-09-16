@@ -22,10 +22,6 @@ public class SceneTransitionManager : MonoBehaviour
             Destroy(gameObject);
         }
     }
-    private void Update()
-    {
-        Debug.Log($"アクティブフラグ : {gameObject.activeInHierarchy}");
-    }
     public void LoadSceneAsync(string sceneName)
     {
         gameObject.SetActive(true);

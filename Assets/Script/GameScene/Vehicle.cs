@@ -87,7 +87,6 @@ public class Vehicle : MonoBehaviour, ICar
     {
         var leftInput = InputManager.Instance._inputActions.PlayerActionMap.MoveLeft.ReadValue<float>();
         var rightInput = InputManager.Instance._inputActions.PlayerActionMap.MoveRight.ReadValue<float>();
-        Debug.Log($"steer : {steer}");
         if (leftInput > 0)
         {
             steer = angle * -leftInput;
