@@ -1,3 +1,4 @@
+using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,11 +13,13 @@ public class GameManager : MonoBehaviour
     private Renderer _startLights3;
     [SerializeField]
     private Material _greenMaterial;
+    [SerializeField]
+    public Camera _playerCamera;
     private bool _isGameStart = true;
     private bool _isGoal = false;
     private float _currentGameTime = 0f;
     private float _countDownTime = 7;
-
+    private int _firstRun = 0;
     public float CurrentGameTime => _currentGameTime;
     public float CountdownTime => _countDownTime;
     public bool IsGameStart => _isGameStart;
@@ -33,30 +36,40 @@ public class GameManager : MonoBehaviour
         {
             Destroy(gameObject);
         }
-    }
-    private void Start()
-    {
 
     }
     private void Update()
     {
         StartCountDown();
-        if (!IsGoalMethod())
+        if (!GetIsGoalFlag())
         {
             _currentGameTime += Time.deltaTime;
         }
         else
         {
             _isGoal = true;
+            Debug.Log("ÉSÅ[ÉãÇµÇ‹ÇµÇΩ");
+            Goal();
         }
     }
 
-    private bool IsGoalMethod()
+    private void Goal()
+    {
+        if (_firstRun == 0)
+        {
+            _playerCamera.transform.parent = null;
+            SceneTransitionManager.Instance.LoadSceneAsync("ResultScene");
+            _firstRun++;
+        }
+    }
+
+    private bool GetIsGoalFlag()
     {
         if (Vehicle.Instance.LapCount == 4)
         {
             return true;
         }
+        if (Input.GetKeyDown(KeyCode.P)) { return true; }
         return false;
     }
 

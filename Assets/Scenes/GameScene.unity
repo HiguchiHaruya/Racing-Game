@@ -10690,6 +10690,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 603522807}
+    - targetCorrespondingSourceObject: {fileID: 4922170374542132, guid: 663342408c5e6e24f8e0cb584631c6ad,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 963194228}
     - targetCorrespondingSourceObject: {fileID: 4181728253339038, guid: 663342408c5e6e24f8e0cb584631c6ad,
         type: 3}
       insertIndex: -1
@@ -11514,7 +11518,7 @@ LightingSettings:
   m_PrefabAsset: {fileID: 0}
   m_Name: 
   serializedVersion: 6
-  m_GIWorkflowMode: 1
+  m_GIWorkflowMode: 0
   m_EnableBakedLightmaps: 1
   m_EnableRealtimeLightmaps: 0
   m_RealtimeEnvironmentLighting: 1
@@ -12081,13 +12085,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
   serializedVersion: 2
-  m_LocalRotation: {x: 0.15944049, y: 0.69825476, z: -0.16413307, w: 0.67829156}
-  m_LocalPosition: {x: -445.9184, y: 3.04, z: -0.5770828}
+  m_LocalRotation: {x: 0.000015221536, y: -0.9734676, z: 0.22882512, w: 0.00006476045}
+  m_LocalPosition: {x: 0.000521943, y: 2.11, z: 4.2401857}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 1496586878}
-  m_Father: {fileID: 0}
+  m_Father: {fileID: 2144557475}
   m_LocalEulerAnglesHint: {x: 22.071, y: -180, z: 0.008}
 --- !u!114 &963194229
 MonoBehaviour:
@@ -12096,7 +12100,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 963194225}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 72ece51f2901e7445ab60da3685d6b5f, type: 3}
   m_Name: 
@@ -18423,6 +18427,7 @@ MonoBehaviour:
   _startLights2: {fileID: 29585048}
   _startLights3: {fileID: 515362637}
   _greenMaterial: {fileID: 2100000, guid: 281a076aaaa01444986449f9b8663f85, type: 2}
+  _playerCamera: {fileID: 963194227}
 --- !u!4 &1651816908
 Transform:
   m_ObjectHideFlags: 0
@@ -19328,7 +19333,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &2010468583
 Transform:
   m_ObjectHideFlags: 0
@@ -19363,7 +19368,7 @@ MonoBehaviour:
   m_StreamingVersion: 20170927
   m_Priority: 10
   m_StandbyUpdate: 2
-  m_LookAt: {fileID: 2144557475}
+  m_LookAt: {fileID: 0}
   m_Follow: {fileID: 0}
   m_Lens:
     FieldOfView: 75.50055
@@ -19727,7 +19732,6 @@ SceneRoots:
   m_ObjectHideFlags: 0
   m_Roots:
   - {fileID: 705507995}
-  - {fileID: 963194228}
   - {fileID: 519816853}
   - {fileID: 576497793}
   - {fileID: 621697475}

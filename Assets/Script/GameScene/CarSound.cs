@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class CarSound : MonoBehaviour
 {
-    private CarState _previousState = CarState.Idle;
+    private CarState _idle = CarState.Idle;
     [SerializeField]
     private AudioSource _carAudio;
     [SerializeField]
@@ -21,25 +21,24 @@ public class CarSound : MonoBehaviour
 
     private void SelectSound()
     {
-        if (Vehicle.Instance.GetCurrentState() != _previousState)
+        //if (Vehicle.Instance.GetCurrentState() != _idle) { return; }
+        switch (Vehicle.Instance.GetCurrentState())
         {
-            switch (Vehicle.Instance.GetCurrentState())
-            {
-                case CarState.Idle:
-                    PlayEngineSound(0);
-                    break;
-                case CarState.Low:
-                    PlayEngineSound(1);
-                    break;
-                case CarState.High:
-                    PlayEngineSound(2);
-                    break;
-            }
+            case CarState.Idle:
+                PlayEngineSound(0);
+                break;
+            case CarState.Low:
+                PlayEngineSound(1);
+                break;
+            case CarState.High:
+                PlayEngineSound(2);
+                break;
         }
     }
 
     private void PlayEngineSound(int index)
     {
+        if (_carAudio == null) return;
         _carAudio.Stop();
         _carAudio.clip = _clip[index];
         _carAudio.Play();
