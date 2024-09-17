@@ -15,7 +15,7 @@ public class GameManager : MonoBehaviour
     private Material _greenMaterial;
     [SerializeField]
     public Camera _playerCamera;
-    private bool _isGameStart = true;
+    private bool _isGameStart = false;
     private bool _isGoal = false;
     private float _currentGameTime = 0f;
     private float _countDownTime = 7;
@@ -43,11 +43,11 @@ public class GameManager : MonoBehaviour
     {
         StartCountDown();
         LeaveGame();
-        if (!GetIsGoalFlag())
+        if (!GetIsGoalFlag() && _isGameStart)
         {
             _currentGameTime += Time.deltaTime;
         }
-        else
+        else if(GetIsGoalFlag())
         {
             _isGoal = true;
             Debug.Log("ÉSÅ[ÉãÇµÇ‹ÇµÇΩ");

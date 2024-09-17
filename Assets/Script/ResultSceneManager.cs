@@ -35,17 +35,29 @@ public class ResultSceneManager : MonoBehaviour
     private void AddRanking()
     {
         RankingManager.Instance.AddScore(_playerName.text, GameManager.Instance.CurrentGameTime);
-        if (RankingManager.Instance.RankingList.Count > -1)
+        if (RankingManager.Instance.RankingList.Count >= 1)
         {
             _rankingText1.text = $"1位 : {RankingManager.Instance.GetRankingData(0).playerName} タイム : {RankingManager.Instance.GetRankingData(0).score.ToString("F2")}";
         }
-        if (RankingManager.Instance.RankingList.Count > 0)
+        else
         {
-            _rankingText2.text = $"2位 : {RankingManager.Instance.GetRankingData(1).playerName} タイム : {RankingManager.Instance.GetRankingData(0).score.ToString("F2")}";
+            _rankingText1.text = "1位 : --- タイム : ---";
         }
-        if (RankingManager.Instance.RankingList.Count > 1)
+        if (RankingManager.Instance.RankingList.Count >= 2)
         {
-            _rankingText3.text = $"3位 : {RankingManager.Instance.GetRankingData(2).playerName} タイム : {RankingManager.Instance.GetRankingData(0).score.ToString("F2")}";
+            _rankingText2.text = $"2位 : {RankingManager.Instance.GetRankingData(1).playerName} タイム : {RankingManager.Instance.GetRankingData(1).score.ToString("F2")}";
+        }
+        else
+        {
+            _rankingText2.text = "2位 : --- タイム : ---";
+        }
+        if (RankingManager.Instance.RankingList.Count >= 3)
+        {
+            _rankingText3.text = $"3位 : {RankingManager.Instance.GetRankingData(2).playerName} タイム : {RankingManager.Instance.GetRankingData(2).score.ToString("F2")}";
+        }
+        else
+        {
+            _rankingText3.text = "3位 : --- タイム : ---";
         }
     }
 }

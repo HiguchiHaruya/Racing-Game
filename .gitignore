@@ -76,3 +76,5 @@ Assets/CartoonTracksPack1/Track1/Meshes/Track_Meshes/OvalModular/oval_mod_trees.
 Assets/CartoonTracksPack1/Track1/Textures/road_normal.png
 Assets/Scenes/SampleScene/OcclusionCullingData.asset
 *.hdr
+Assets/Sound/Bgm.mp3
+Assets/Sound/Bgm.mp3.meta

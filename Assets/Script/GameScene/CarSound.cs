@@ -40,6 +40,10 @@ public class CarSound : MonoBehaviour
         {
             PlayDriftSound();
         }
+        if (GameManager.Instance.IsGoal)
+        {
+            StopEngineSound();
+        }
     }
 
     private void PlayEngineSound(int index)
@@ -48,6 +52,11 @@ public class CarSound : MonoBehaviour
         _carAudio.Stop();
         _carAudio.clip = _clip[index];
         _carAudio.Play();
+    }
+    private void StopEngineSound()
+    {
+        if(_carAudio == null) return;
+        _carAudio.Stop();
     }
     private void PlayDriftSound()
     {

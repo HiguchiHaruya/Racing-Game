@@ -6,19 +6,19 @@ public class AudioManager : MonoBehaviour
 {
     public static AudioManager Instance;
     [SerializeField]
-    AudioSource _audioSource;
+    AudioSource _bgmSource;
     [SerializeField]
-    private AudioClip[] _audioClips;
+    private AudioClip _audioClip;
     [SerializeField]
     private AudioSource _seSource;
     [SerializeField]
     private AudioClip[] _seClips;
+    private int _firstRun = 0;
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            DontDestroyOnLoad(gameObject);
         }
         else
         {
@@ -28,20 +28,12 @@ public class AudioManager : MonoBehaviour
     private void Update()
     {
         CountDownSound();
+        PlayBgm();
     }
-
-
     private void CountDownSound()
     {
-        //Debug.Log((int)GameManager.Instance.CountdownTime);
         switch ((int)GameManager.Instance.CountdownTime)
         {
-            case 7:
-
-                break;
-            case 6:
-
-                break;
             case 5:
                 PlaySe(0);
                 break;
@@ -55,18 +47,20 @@ public class AudioManager : MonoBehaviour
             case 1:
                 break;
             case 0:
-               // Debug.Log("‚·‚½[‚ÆII");
                 break;
         }
     }
-
-    //public void PlayClip(int index)
-    //{
-    //    _audioSource.clip = _audioClips[index];
-    //    _audioSource.Play();
-    //}
+    private void PlayBgm()
+    {
+        if (!GameManager.Instance.IsGameStart || _firstRun > 0) return;
+        _bgmSource.clip = _audioClip;
+        _bgmSource.Play();
+        _bgmSource.loop = true;
+        _firstRun = 1;
+    }
     public void PlaySe(int index)
     {
+        _seSource.loop = false;
         _seSource.clip = _seClips[index];
         _seSource.Play();
     }
