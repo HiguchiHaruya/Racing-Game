@@ -19,6 +19,8 @@ public class UiManager : MonoBehaviour
     private Text _lapCountText;
     [SerializeField]
     private Text CurrentTime;
+    [SerializeField]
+    private ParticleSystem _maxSpeedParticle;
     private int t = 150;
     void Update()
     {
@@ -57,6 +59,8 @@ public class UiManager : MonoBehaviour
     {
         _torqueSlider.fillAmount = Mathf.Abs(Vehicle.Instance.Torque) / Vehicle.Instance.MaxTorque;
         _torqueText.text = Mathf.Abs((int)Vehicle.Instance.SliderTorque).ToString();
+        if (_torqueSlider.fillAmount == 1) { _torqueSlider.color = Color.yellow; }
+        else { _torqueSlider.color = Color.white; }
     }
 
     private void MaxSpeedParticle()
@@ -65,7 +69,12 @@ public class UiManager : MonoBehaviour
         if (Mathf.Abs(Vehicle.Instance.Torque) >= Vehicle.Instance.MaxTorque)
         {
             _saturatedLine.Play();
+            _maxSpeedParticle.Play();
         }
-        else { _saturatedLine.Stop(); }
+        else
+        {
+            _saturatedLine.Stop();
+            _maxSpeedParticle.Stop();
+        }
     }
 }
