@@ -19,6 +19,7 @@ public class UiManager : MonoBehaviour
     private Text _lapCountText;
     [SerializeField]
     private Text CurrentTime;
+    private int t = 150;
     void Update()
     {
         SpeedoMeter();
@@ -55,7 +56,7 @@ public class UiManager : MonoBehaviour
     private void SpeedoMeter()
     {
         _torqueSlider.fillAmount = Mathf.Abs(Vehicle.Instance.Torque) / Vehicle.Instance.MaxTorque;
-        _torqueText.text = Mathf.Abs((int)Vehicle.Instance.Torque / 10).ToString();
+        _torqueText.text = Mathf.Abs((int)Vehicle.Instance.SliderTorque).ToString();
     }
 
     private void MaxSpeedParticle()

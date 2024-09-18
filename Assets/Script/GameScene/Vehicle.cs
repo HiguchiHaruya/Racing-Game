@@ -27,11 +27,13 @@ public class Vehicle : MonoBehaviour, ICar
     private CarState _currentState;
     private bool _isDrifting = false;
     private bool _isFirstRun = false;
+    private float _sliderTorque = 0;
     public int LapCount => _lapCount;
     public float MaxTorque => _maxTorque;
     public float Torque => _torque;
     public float CoolTime => _coolTime;
     public bool IsDrifting => _isDrifting;
+    public float SliderTorque => _sliderTorque;
     protected virtual void Awake()
     {
         if (Instance == null)
@@ -70,11 +72,13 @@ public class Vehicle : MonoBehaviour, ICar
         { //入力中にMax速度に達するまでの時間を計算して_torqueに値を入れる
             _currentTime += Time.deltaTime / _maxTime;
             _torque = Mathf.Lerp(0, -1 * _maxTorque, _currentTime);
+            _sliderTorque = Mathf.Lerp(0, 150, _currentTime);
         }
         else
         {
             _currentTime -= Time.deltaTime / _maxTime;
             _torque = Mathf.Lerp(0, -1 * _maxTorque, _currentTime);
+            _sliderTorque = Mathf.Lerp(0, 150, _currentTime);
             _currentTime = Mathf.Max(_currentTime, 0); //プラスの値にならないように制限
         }
         rearLeft.motorTorque = _torque;
@@ -124,19 +128,23 @@ public class Vehicle : MonoBehaviour, ICar
         //Debug.Log(rearLeft.sidewaysFriction.stiffness);
         _isDrifting = false;
         WheelFrictionCurve sidewaysFriction = rearLeft.sidewaysFriction;
+        float forceAppPointDistance = rearLeft.forceAppPointDistance;
         _currentStiffness = Mathf.Lerp(_currentStiffness, _targetFriction, Time.deltaTime * _driftTransitionSpeed);
         if (driftInput > 0)
         {
             _targetFriction = _driftFriction;
             sidewaysFriction.stiffness = _currentStiffness;
             if (sidewaysFriction.stiffness <= _driftFriction + 0.01) { _isDrifting = true; }
+            forceAppPointDistance = 0.125f;
         }
         else
         {
+            forceAppPointDistance = 0.075f;
             _currentStiffness = _friction;
             sidewaysFriction.stiffness = _friction;
         }
-
+        rearLeft.forceAppPointDistance = forceAppPointDistance;
+        rearRight.forceAppPointDistance = forceAppPointDistance;
         rearLeft.sidewaysFriction = sidewaysFriction;
         rearRight.sidewaysFriction = sidewaysFriction;
     }
