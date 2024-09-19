@@ -14,7 +14,8 @@ public class WheelController : Vehicle, ICar
     WheelCollider _frontRight, _frontLeft, _rearRight, _rearLeft;
     Rigidbody _rb;
     Transform _carbody;
-   protected override void Awake()
+    private int _firstRun = 0;
+    protected override void Awake()
     {
         base.Awake();
     }
@@ -32,7 +33,7 @@ public class WheelController : Vehicle, ICar
         base.rearLeft = this._rearLeft;
         base.rearRight = this._rearRight;
     }
-    
+
     void FixedUpdate()
     {
         if (!GameManager.Instance.IsGameStart) return;
@@ -62,6 +63,15 @@ public class WheelController : Vehicle, ICar
     public override void Drift()
     {
         base.Drift();
+        if (base._isPushDriftButton && _firstRun == 0)
+        {
+            _rb.AddForce(new Vector3(0, 3500, 0), ForceMode.Impulse);
+            _firstRun++;
+        }
+        else if (!base._isPushDriftButton)
+        {
+            _firstRun = 0;
+        }
     }
     public override void Acceleration(Rigidbody rb)
     {

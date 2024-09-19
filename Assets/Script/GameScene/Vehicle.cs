@@ -25,15 +25,19 @@ public class Vehicle : MonoBehaviour, ICar
     float steer = 0;
     protected WheelCollider frontRight, frontLeft, rearRight, rearLeft; //タイヤ達
     private CarState _currentState;
-    private bool _isDrifting = false;
+    protected bool _isDrifting = false;
+    protected bool _isPushDriftButton = false;
     private bool _isFirstRun = false;
     private float _sliderTorque = 0;
+    private int _coolMaxTime = 30;
+
     public int LapCount => _lapCount;
     public float MaxTorque => _maxTorque;
     public float Torque => _torque;
     public float CoolTime => _coolTime;
     public bool IsDrifting => _isDrifting;
     public float SliderTorque => _sliderTorque;
+    public int CoolMaxTime => _coolMaxTime;
     protected virtual void Awake()
     {
         if (Instance == null)
@@ -132,6 +136,7 @@ public class Vehicle : MonoBehaviour, ICar
         _currentStiffness = Mathf.Lerp(_currentStiffness, _targetFriction, Time.deltaTime * _driftTransitionSpeed);
         if (driftInput > 0)
         {
+            _isPushDriftButton = true;
             _targetFriction = _driftFriction;
             sidewaysFriction.stiffness = _currentStiffness;
             if (sidewaysFriction.stiffness <= _driftFriction + 0.01) { _isDrifting = true; }
@@ -142,6 +147,7 @@ public class Vehicle : MonoBehaviour, ICar
             forceAppPointDistance = 0.075f;
             _currentStiffness = _friction;
             sidewaysFriction.stiffness = _friction;
+            _isPushDriftButton = false;
         }
         rearLeft.forceAppPointDistance = forceAppPointDistance;
         rearRight.forceAppPointDistance = forceAppPointDistance;
@@ -152,7 +158,7 @@ public class Vehicle : MonoBehaviour, ICar
     public virtual void Acceleration(Rigidbody rb)
     {
         _coolTime += Time.deltaTime;
-        if ((int)_coolTime >= 30)
+        if ((int)_coolTime >= _coolMaxTime)
         {
             if (!rb.TryGetComponent<Rigidbody>(out var rigidbody)) { return; }
             if (Input.GetKeyDown(KeyCode.Return))
@@ -161,6 +167,15 @@ public class Vehicle : MonoBehaviour, ICar
                 _coolTime = 0;
             }
         }
+    }
+    ///  <summary>現在の車の速度を返してくれる</summary>
+    /// <returns>現在の車の速度(km/h)</returns>
+    public float GetCurrentSpeed()
+    {
+        float wheelRadius = frontLeft.radius; //タイヤの半径
+        float avgRpm = (frontLeft.rpm + frontRight.rpm + rearLeft.rpm + rearRight.rpm) / 4; //各タイヤのrpm(一分間の回転数)を取得して平均を得る。要するに車輪がどんだけ回転してるかが分かる
+        float speed = 2 * Mathf.PI * wheelRadius * avgRpm / 60; //タイヤの回転数から車の速度(m/s)を計算する
+        return speed * 3.6f; //m/sをkm/hメートル毎秒をキロメートル毎時に変換
     }
     public CarState GetCurrentState()
     {
