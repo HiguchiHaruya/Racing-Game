@@ -78,3 +78,9 @@ Assets/Scenes/SampleScene/OcclusionCullingData.asset
 *.hdr
 Assets/Sound/Bgm.mp3
 Assets/Sound/Bgm.mp3.meta
+*.fbx
+*.dds
+*.meta
+*.jpg
+*.png
+Assets/Prefab/Syutoko.prefab
