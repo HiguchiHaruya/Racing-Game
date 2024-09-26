@@ -18,7 +18,7 @@ public class CarSound : MonoBehaviour
     private bool _highSpeed = false;
     void Update()
     {
-        Debug.Log(Vehicle.Instance.IsDrifting);
+        //Debug.Log(Vehicle.Instance.IsDrifting);
         SelectSound();
     }
 

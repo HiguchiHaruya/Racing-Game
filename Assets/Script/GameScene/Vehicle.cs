@@ -12,15 +12,16 @@ public class Vehicle : MonoBehaviour, ICar
     private int _lapCount = 1;
     public float angle; //横移動角度
     public float brake; //ブレーキ力
-    protected float _friction = 3f; //通常時のタイヤの摩擦
-    protected float _driftFriction = 2.2f; //ドリフト時のStiffness
+    protected float _normalFriction = 5.5f; //通常時のタイヤの摩擦
+    protected float _driftFriction = 2.75f; //ドリフト時のStiffness
     private float _torque = 0; //現在の速度
+    private float _driftTorque = 100; //ドリフト時の前進力
     private float _maxTime = 1f; //最高速度に達するまでの時間
     private float _currentTime; //maxTimeを計測するための変数
     private float _coolTime = 0; //加速のクールタイム
     private float _driftTransitionSpeed = 8f; //ドリフトのstiffness値Maxまでの遷移時間
     private float _targetFriction = 2;
-    private float _currentStiffness = 2f; //現在のStiffness
+    private float _currentStiffness = 4f; //現在のStiffness
     private float _effectFriction = 1.39f; //エフェクトが出るStiffness値
     float steer = 0;
     protected WheelCollider frontRight, frontLeft, rearRight, rearLeft; //タイヤ達
@@ -30,6 +31,9 @@ public class Vehicle : MonoBehaviour, ICar
     private bool _isFirstRun = false;
     private float _sliderTorque = 0;
     private int _coolMaxTime = 30;
+    private float _normalForceAppPointDistance = 0.05f;
+    private float _driftForceAppPointDistance = 0.08f;
+    private float _driftAngle = 8f;
 
     public int LapCount => _lapCount;
     public float MaxTorque => _maxTorque;
@@ -71,12 +75,22 @@ public class Vehicle : MonoBehaviour, ICar
     {
         _currentTime = Mathf.Min(_currentTime, _maxTime);
         var input = InputManager.Instance._inputActions.PlayerActionMap.MoveForward.ReadValue<float>();
-        // Debug.Log($"inputValue : {input}");
+        Debug.Log($"前進いんぷっと {input}");
         if (-input < 0)
         { //入力中にMax速度に達するまでの時間を計算して_torqueに値を入れる
-            _currentTime += Time.deltaTime / _maxTime;
-            _torque = Mathf.Lerp(0, -1 * _maxTorque, _currentTime);
-            _sliderTorque = Mathf.Lerp(0, 150, _currentTime);
+            if (!_isDrifting)
+            {
+                _currentTime += Time.deltaTime / _maxTime;
+                _torque = Mathf.Lerp(0, -1 * _maxTorque, _currentTime);
+                _sliderTorque = Mathf.Lerp(0, 150, _currentTime);
+            }
+            if (_isDrifting)
+            {
+                //frontLeft.brakeTorque = brake;
+                //frontRight.brakeTorque = brake;
+                //rearLeft.brakeTorque = brake;
+                //rearRight.brakeTorque = brake;
+            }
         }
         else
         {
@@ -98,10 +112,18 @@ public class Vehicle : MonoBehaviour, ICar
         if (leftInput > 0)
         {
             steer = angle * -leftInput;
+            if (_isDrifting)
+            {
+                steer = _driftAngle * -leftInput;
+            }
         }
         else if (rightInput > 0)
         {
             steer = angle * rightInput;
+            if (_isDrifting)
+            {
+                steer = _driftAngle * rightInput;
+            }
         }
         else
         {
@@ -129,30 +151,33 @@ public class Vehicle : MonoBehaviour, ICar
     public virtual void Drift()
     {
         var driftInput = InputManager.Instance._inputActions.PlayerActionMap.Drift.ReadValue<float>();
-        //Debug.Log(rearLeft.sidewaysFriction.stiffness);
         _isDrifting = false;
+        Debug.Log($"ドリフトいんぷっと {driftInput}");
         WheelFrictionCurve sidewaysFriction = rearLeft.sidewaysFriction;
-        float forceAppPointDistance = rearLeft.forceAppPointDistance;
-        _currentStiffness = Mathf.Lerp(_currentStiffness, _targetFriction, Time.deltaTime * _driftTransitionSpeed);
         if (driftInput > 0)
         {
-            _isPushDriftButton = true;
-            _targetFriction = _driftFriction;
+
+            SetForceAppDistance(_driftForceAppPointDistance);
+            _currentStiffness = Mathf.Lerp(_currentStiffness, _driftFriction, Time.deltaTime * _driftTransitionSpeed);
+            //_targetFriction = _driftFriction;
             sidewaysFriction.stiffness = _currentStiffness;
             if (sidewaysFriction.stiffness <= _driftFriction + 0.01) { _isDrifting = true; }
-            forceAppPointDistance = 0.125f;
         }
         else
         {
-            forceAppPointDistance = 0.075f;
-            _currentStiffness = _friction;
-            sidewaysFriction.stiffness = _friction;
-            _isPushDriftButton = false;
+            SetForceAppDistance(_normalForceAppPointDistance);
+            _currentStiffness = _normalFriction;
+            sidewaysFriction.stiffness = _normalFriction;
         }
-        rearLeft.forceAppPointDistance = forceAppPointDistance;
-        rearRight.forceAppPointDistance = forceAppPointDistance;
         rearLeft.sidewaysFriction = sidewaysFriction;
         rearRight.sidewaysFriction = sidewaysFriction;
+    }
+    private void SetForceAppDistance(float value)
+    {
+        rearLeft.forceAppPointDistance = value;
+        rearRight.forceAppPointDistance = value;
+        frontLeft.forceAppPointDistance = value;
+        frontRight.forceAppPointDistance = value;
     }
     ///<summary> 加速機能メソッド</summary>
     public virtual void Acceleration(Rigidbody rb)

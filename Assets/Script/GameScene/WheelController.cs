@@ -7,8 +7,6 @@ using UnityEngine.ProBuilder.Shapes;
 public class WheelController : Vehicle, ICar
 {
     [SerializeField]
-    private float _driftAngle = 10f;
-    [SerializeField]
     private float _tiltSpeed = 5f;
     [SerializeField]
     WheelCollider _frontRight, _frontLeft, _rearRight, _rearLeft;
@@ -63,15 +61,6 @@ public class WheelController : Vehicle, ICar
     public override void Drift()
     {
         base.Drift();
-        if (base._isPushDriftButton && _firstRun == 0)
-        {
-            _rb.AddForce(new Vector3(0, 3500, 0), ForceMode.Impulse);
-            _firstRun++;
-        }
-        else if (!base._isPushDriftButton)
-        {
-            _firstRun = 0;
-        }
     }
     public override void Acceleration(Rigidbody rb)
     {

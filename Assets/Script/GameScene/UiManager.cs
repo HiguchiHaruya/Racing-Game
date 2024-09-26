@@ -65,7 +65,7 @@ public class UiManager : MonoBehaviour
     private void SpeedoMeter()
     {
         _torqueSlider.fillAmount = Mathf.Abs(Vehicle.Instance.Torque) / Vehicle.Instance.MaxTorque;
-        Debug.Log(Vehicle.Instance.GetCurrentSpeed());
+        //Debug.Log(Vehicle.Instance.GetCurrentSpeed());
         //  _torqueText.text = Mathf.Abs((int)Vehicle.Instance.SliderTorque).ToString();
         _currentSpeedText.text = Mathf.Abs((int)Vehicle.Instance.GetCurrentSpeed()).ToString();
         if (_torqueSlider.fillAmount == 1)
