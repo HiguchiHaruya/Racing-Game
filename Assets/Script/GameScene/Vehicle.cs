@@ -13,7 +13,7 @@ public class Vehicle : MonoBehaviour, ICar
     public float angle; //横移動角度
     public float brake; //ブレーキ力
     protected float _normalFriction = 5.5f; //通常時のタイヤの摩擦
-    protected float _driftFriction = 2.75f; //ドリフト時のStiffness
+    protected float _driftFriction = 3f; //ドリフト時のStiffness
     private float _torque = 0; //現在の速度
     private float _driftTorque = 100; //ドリフト時の前進力
     private float _maxTime = 1f; //最高速度に達するまでの時間
@@ -32,8 +32,8 @@ public class Vehicle : MonoBehaviour, ICar
     private float _sliderTorque = 0;
     private int _coolMaxTime = 30;
     private float _normalForceAppPointDistance = 0.05f;
-    private float _driftForceAppPointDistance = 0.08f;
-    private float _driftAngle = 8f;
+    private float _driftForceAppPointDistance = 0.065f;
+    private float _driftAngle = 8.5f;
 
     public int LapCount => _lapCount;
     public float MaxTorque => _maxTorque;
@@ -152,8 +152,8 @@ public class Vehicle : MonoBehaviour, ICar
     {
         var driftInput = InputManager.Instance._inputActions.PlayerActionMap.Drift.ReadValue<float>();
         _isDrifting = false;
-        Debug.Log($"ドリフトいんぷっと {driftInput}");
         WheelFrictionCurve sidewaysFriction = rearLeft.sidewaysFriction;
+        Debug.Log($"isDrift = {_isDrifting}");
         if (driftInput > 0)
         {
 
