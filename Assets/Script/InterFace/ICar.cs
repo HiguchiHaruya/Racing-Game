@@ -4,8 +4,8 @@ using UnityEngine;
 
 interface ICar
 {
-    void Precession();
-    void MoveSideways();
+    void Precession(float torque);
+    void MoveSideways(float angle);
     void Breake();
     void Drift();
     void ApplyCarTilt(Transform carBody, float tiltAngle, float tiltSpeed);
