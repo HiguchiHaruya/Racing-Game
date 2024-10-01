@@ -12,7 +12,7 @@ public class Vehicle : MonoBehaviour, ICar
     private int _lapCount = 1;
     public float angle; //横移動角度
     public float brake; //ブレーキ力
-    protected float _normalFriction = 5.5f; //通常時のタイヤの摩擦
+    protected float _normalFriction = 5f; //通常時のタイヤの摩擦
     protected float _driftFriction = 3f; //ドリフト時のStiffness
     private float _torque = 0; //現在の速度
     private float _driftTorque = 100; //ドリフト時の前進力
@@ -31,9 +31,9 @@ public class Vehicle : MonoBehaviour, ICar
     private bool _isFirstRun = false;
     private float _sliderTorque = 0;
     private int _coolMaxTime = 30;
-    private float _normalForceAppPointDistance = 0.05f;
+    private float _normalForceAppPointDistance = 0f;
     private float _driftForceAppPointDistance = 0.065f;
-    private float _driftAngle = 8.5f;
+    private float _driftAngle = 0.85f;
 
     public int LapCount => _lapCount;
     public float MaxTorque => _maxTorque;
@@ -74,14 +74,15 @@ public class Vehicle : MonoBehaviour, ICar
     public virtual void Precession()
     {
         _currentTime = Mathf.Min(_currentTime, _maxTime);
+        _currentTime = Mathf.Clamp(_currentTime, 0, _maxTime);
         var input = InputManager.Instance._inputActions.PlayerActionMap.MoveForward.ReadValue<float>();
         Debug.Log($"前進いんぷっと {input}");
-        if (-input < 0)
+        if (input > 0)
         { //入力中にMax速度に達するまでの時間を計算して_torqueに値を入れる
             if (!_isDrifting)
             {
                 _currentTime += Time.deltaTime / _maxTime;
-                _torque = Mathf.Lerp(0, -1 * _maxTorque, _currentTime);
+                _torque = Mathf.Lerp(0, _maxTorque, _currentTime);
                 _sliderTorque = Mathf.Lerp(0, 150, _currentTime);
             }
             if (_isDrifting)
@@ -95,9 +96,9 @@ public class Vehicle : MonoBehaviour, ICar
         else
         {
             _currentTime -= Time.deltaTime / _maxTime;
-            _torque = Mathf.Lerp(0, -1 * _maxTorque, _currentTime);
+            _torque = Mathf.Lerp(_maxTime, 0, _currentTime);
             _sliderTorque = Mathf.Lerp(0, 150, _currentTime);
-            _currentTime = Mathf.Max(_currentTime, 0); //プラスの値にならないように制限
+            _currentTime = Mathf.Max(_currentTime, 0);
         }
         rearLeft.motorTorque = _torque;
         rearRight.motorTorque = _torque;
