@@ -17,7 +17,6 @@ public class WheelController : Vehicle, ICar
     protected override void Awake()
     {
         base.Awake();
-        Debug.Log(this.transform.forward);
     }
     private void Start()
     {
