@@ -4,13 +4,26 @@ using UnityEngine;
 
 public class DontUseWheelCollider_CarController : MonoBehaviour, DontUseWheelCollider_ICar
 {
+    public static DontUseWheelCollider_CarController Instance;
     public DontUseWheelCollider_CarParameters _carParameters;
     private Rigidbody _rb;
     private float _currentSpeed;
     private float _forwardInput;  // 前進・後退の入力を保持
     private float _steeringInput; // 左右の入力を保持
     private bool _isDrifting;     // ドリフト中かどうか
-
+    private bool _isForwardInput;
+    private void Awake()
+    {
+        if (Instance == null)
+        {
+            Instance = this;
+            DontDestroyOnLoad(gameObject);
+        }
+        else
+        {
+            Destroy(Instance);
+        }
+    }
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
@@ -63,6 +76,7 @@ public class DontUseWheelCollider_CarController : MonoBehaviour, DontUseWheelCol
 
     public void HandleMovement()
     {
+        //pivot.transform.position = this.transform.position;
         // 前進・後退の処理
         float targetSpeed = _forwardInput * _carParameters.maxSpeed;
 
@@ -70,11 +84,13 @@ public class DontUseWheelCollider_CarController : MonoBehaviour, DontUseWheelCol
         if (_forwardInput > 0)
         {
             _currentSpeed = Mathf.Lerp(_currentSpeed, targetSpeed, _carParameters.acceleration * Time.fixedDeltaTime);
+            _isForwardInput = true;
         }
         else
         {
             // 入力がない場合は減速
             _currentSpeed = Mathf.Lerp(_currentSpeed, 0, _carParameters.deceleration * Time.fixedDeltaTime);
+            _isForwardInput = false;
         }
 
         // Rigidbodyを使用して物理的に移動
@@ -86,7 +102,7 @@ public class DontUseWheelCollider_CarController : MonoBehaviour, DontUseWheelCol
     public void HandleSteering()
     {
         // ステアリングの処理
-        float steeringSensitivity = _isDrifting ? _carParameters.steeringSensitivety * 3.0f : _carParameters.steeringSensitivety;
+        float steeringSensitivity = _isDrifting ? _carParameters.driftSteeringSensitivity : _carParameters.steeringSensitivity;
 
         // ステアリング角度を決定（ドリフト中は感度を高める）
         float turnAmount = _steeringInput * steeringSensitivity * Time.fixedDeltaTime;
@@ -104,13 +120,18 @@ public class DontUseWheelCollider_CarController : MonoBehaviour, DontUseWheelCol
             _rb.drag = 0.1f;  // ドリフト中は摩擦を下げる
 
             // 横方向に軽い力を加えて滑るような挙動にする
-            Vector3 driftForce = transform.right * _steeringInput * _carParameters.driftFactor;
-            _rb.AddForce(driftForce, ForceMode.Acceleration);
+            Vector3 driftForce = transform.right * -_steeringInput * _carParameters.driftFactor;
+            _rb.AddForce(driftForce, ForceMode.Impulse);
         }
         else
         {
             // 通常の摩擦に戻す
             _rb.drag = 0.5f;  // 通常時の抵抗値に戻す
         }
+
+        //Vector3 currentVelocity = _rb.velocity; //現在の速さを取得
+        //Vector3 forwardVelocity = transform.forward * Vector3.Dot(currentVelocity, transform.forward); //車両が向いている方向にどれだけ速く進んでいるか
+        //Vector3 rightVelocity = transform.right * Vector3.Dot(currentVelocity, transform.right); //車両が横滑りしている速さ
+        //_rb.velocity = forwardVelocity + rightVelocity * _carParameters.driftFactor;
     }
 }

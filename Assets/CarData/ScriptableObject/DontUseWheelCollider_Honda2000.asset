@@ -15,6 +15,7 @@ MonoBehaviour:
   maxSpeed: 30
   acceleration: 1
   brakingPower: 30
-  steeringSensitivety: 40
-  driftFactor: 50
-  deceleration: 0.1
+  steeringSensitivity: 50
+  driftSteeringSensitivity: 80
+  driftFactor: 0.5
+  deceleration: 0.5
