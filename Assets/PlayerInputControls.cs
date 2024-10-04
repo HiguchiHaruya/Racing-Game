@@ -15,10 +15,10 @@ using System.Collections.Generic;
 using UnityEngine.InputSystem;
 using UnityEngine.InputSystem.Utilities;
 
-public partial class OriginalInputControlsClass: IInputActionCollection2, IDisposable
+public partial class PlayerInputControls : IInputActionCollection2, IDisposable
 {
     public InputActionAsset asset { get; }
-    public OriginalInputControlsClass()
+    public PlayerInputControls()
     {
         asset = InputActionAsset.FromJson(@"{
     ""name"": ""PlayerInputControls"",
@@ -71,6 +71,15 @@ public partial class OriginalInputControlsClass: IInputActionCollection2, IDispo
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Back"",
+                    ""type"": ""Value"",
+                    ""id"": ""eb47114e-079f-427c-b7bb-57d48df79cef"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": true
                 }
             ],
             ""bindings"": [
@@ -128,6 +137,17 @@ public partial class OriginalInputControlsClass: IInputActionCollection2, IDispo
                     ""action"": ""Brake"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""4ed99995-88b8-4ac0-bc83-2001db23958d"",
+                    ""path"": ""<Keyboard>/s"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Back"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -141,6 +161,7 @@ public partial class OriginalInputControlsClass: IInputActionCollection2, IDispo
         m_PlayerActionMap_MoveLeft = m_PlayerActionMap.FindAction("MoveLeft", throwIfNotFound: true);
         m_PlayerActionMap_MoveRight = m_PlayerActionMap.FindAction("MoveRight", throwIfNotFound: true);
         m_PlayerActionMap_Brake = m_PlayerActionMap.FindAction("Brake", throwIfNotFound: true);
+        m_PlayerActionMap_Back = m_PlayerActionMap.FindAction("Back", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -207,15 +228,17 @@ public partial class OriginalInputControlsClass: IInputActionCollection2, IDispo
     private readonly InputAction m_PlayerActionMap_MoveLeft;
     private readonly InputAction m_PlayerActionMap_MoveRight;
     private readonly InputAction m_PlayerActionMap_Brake;
+    private readonly InputAction m_PlayerActionMap_Back;
     public struct PlayerActionMapActions
     {
-        private @OriginalInputControlsClass m_Wrapper;
-        public PlayerActionMapActions(@OriginalInputControlsClass wrapper) { m_Wrapper = wrapper; }
+        private PlayerInputControls m_Wrapper;
+        public PlayerActionMapActions(PlayerInputControls wrapper) { m_Wrapper = wrapper; }
         public InputAction @Drift => m_Wrapper.m_PlayerActionMap_Drift;
         public InputAction @MoveForward => m_Wrapper.m_PlayerActionMap_MoveForward;
         public InputAction @MoveLeft => m_Wrapper.m_PlayerActionMap_MoveLeft;
         public InputAction @MoveRight => m_Wrapper.m_PlayerActionMap_MoveRight;
         public InputAction @Brake => m_Wrapper.m_PlayerActionMap_Brake;
+        public InputAction @Back => m_Wrapper.m_PlayerActionMap_Back;
         public InputActionMap Get() { return m_Wrapper.m_PlayerActionMap; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -240,6 +263,9 @@ public partial class OriginalInputControlsClass: IInputActionCollection2, IDispo
             @Brake.started += instance.OnBrake;
             @Brake.performed += instance.OnBrake;
             @Brake.canceled += instance.OnBrake;
+            @Back.started += instance.OnBack;
+            @Back.performed += instance.OnBack;
+            @Back.canceled += instance.OnBack;
         }
 
         private void UnregisterCallbacks(IPlayerActionMapActions instance)
@@ -259,6 +285,9 @@ public partial class OriginalInputControlsClass: IInputActionCollection2, IDispo
             @Brake.started -= instance.OnBrake;
             @Brake.performed -= instance.OnBrake;
             @Brake.canceled -= instance.OnBrake;
+            @Back.started -= instance.OnBack;
+            @Back.performed -= instance.OnBack;
+            @Back.canceled -= instance.OnBack;
         }
 
         public void RemoveCallbacks(IPlayerActionMapActions instance)
@@ -283,5 +312,6 @@ public partial class OriginalInputControlsClass: IInputActionCollection2, IDispo
         void OnMoveLeft(InputAction.CallbackContext context);
         void OnMoveRight(InputAction.CallbackContext context);
         void OnBrake(InputAction.CallbackContext context);
+        void OnBack(InputAction.CallbackContext context);
     }
 }

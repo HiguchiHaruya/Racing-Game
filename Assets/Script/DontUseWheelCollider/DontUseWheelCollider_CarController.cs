@@ -10,8 +10,10 @@ public class DontUseWheelCollider_CarController : MonoBehaviour, DontUseWheelCol
     private float _currentSpeed;
     private float _forwardInput;  // 前進・後退の入力を保持
     private float _steeringInput; // 左右の入力を保持
+    private float _backInput;
     private bool _isDrifting;     // ドリフト中かどうか
     private bool _isForwardInput;
+    public float CurrentSpeed => _currentSpeed;
     private void Awake()
     {
         if (Instance == null)
@@ -49,7 +51,11 @@ public class DontUseWheelCollider_CarController : MonoBehaviour, DontUseWheelCol
         // 各動作を物理フレームで行う
         HandleMovement();
         HandleSteering();
-        HandleDrift();
+        BackMovement();
+        if (_isDrifting)
+        {
+            HandleDrift();
+        }
 
         // 速度制御：最大速度を超えないようにする
         if (_rb.velocity.magnitude > _carParameters.maxSpeed)
@@ -66,9 +72,9 @@ public class DontUseWheelCollider_CarController : MonoBehaviour, DontUseWheelCol
         // 左右の入力値を取得 (A/Dキー)
         float moveLeft = InputManager.Instance._inputActions.PlayerActionMap.MoveLeft.ReadValue<float>();
         float moveRight = InputManager.Instance._inputActions.PlayerActionMap.MoveRight.ReadValue<float>();
-
         // 左が押された場合には-1、右が押された場合には1を格納
         _steeringInput = moveRight - moveLeft;
+        _backInput = InputManager.Instance._inputActions.PlayerActionMap.Back.ReadValue<float>();
 
         // ドリフトの入力値を取得 (Shiftキー)
         _isDrifting = InputManager.Instance._inputActions.PlayerActionMap.Drift.ReadValue<float>() > 0;
@@ -98,6 +104,18 @@ public class DontUseWheelCollider_CarController : MonoBehaviour, DontUseWheelCol
         velocity.y = _rb.velocity.y; // 垂直方向の速度を維持する
         _rb.velocity = velocity;
     }
+    void BackMovement()
+    {
+        float targetSpeed = _backInput * -_carParameters.maxSpeed;
+        if (_backInput > 0 && _forwardInput <= 0)
+        {
+            _currentSpeed = Mathf.Lerp(_currentSpeed, targetSpeed, _carParameters.acceleration * Time.fixedDeltaTime);
+        }
+        else if(_backInput <= 0 && _forwardInput <= 0) 
+        {
+            _currentSpeed = Mathf.Lerp(_currentSpeed, 0, _carParameters.deceleration * Time.fixedDeltaTime);
+        }
+    }
 
     public void HandleSteering()
     {
@@ -114,24 +132,14 @@ public class DontUseWheelCollider_CarController : MonoBehaviour, DontUseWheelCol
 
     public void HandleDrift()
     {
-        if (_isDrifting)
-        {
-            // ドリフト中は摩擦を減らして滑りやすくする
-            _rb.drag = 0.1f;  // ドリフト中は摩擦を下げる
+        Vector3 driftDirection = transform.right * _steeringInput; // 右方向に力を加える
+        _rb.AddForce(driftDirection * 500 * Time.fixedDeltaTime, ForceMode.Acceleration);
 
-            // 横方向に軽い力を加えて滑るような挙動にする
-            Vector3 driftForce = transform.right * -_steeringInput * _carParameters.driftFactor;
-            _rb.AddForce(driftForce, ForceMode.Impulse);
-        }
-        else
+        // カウンターステアをするために入力を反転して加える（ドリフト感を出す）
+        if (_steeringInput != 0)
         {
-            // 通常の摩擦に戻す
-            _rb.drag = 0.5f;  // 通常時の抵抗値に戻す
+            float counterSteer = _steeringInput * 500 * 0.5f * Time.fixedDeltaTime;
+            _rb.AddTorque(Vector3.up * counterSteer, ForceMode.Acceleration);
         }
-
-        //Vector3 currentVelocity = _rb.velocity; //現在の速さを取得
-        //Vector3 forwardVelocity = transform.forward * Vector3.Dot(currentVelocity, transform.forward); //車両が向いている方向にどれだけ速く進んでいるか
-        //Vector3 rightVelocity = transform.right * Vector3.Dot(currentVelocity, transform.right); //車両が横滑りしている速さ
-        //_rb.velocity = forwardVelocity + rightVelocity * _carParameters.driftFactor;
     }
 }

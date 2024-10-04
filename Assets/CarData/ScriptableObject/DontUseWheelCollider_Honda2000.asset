@@ -12,10 +12,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a6301c0e448c2a4e8a49f6f8733b66b, type: 3}
   m_Name: DontUseWheelCollider_Honda2000
   m_EditorClassIdentifier: 
-  maxSpeed: 30
+  maxSpeed: 35
   acceleration: 1
   brakingPower: 30
   steeringSensitivity: 50
-  driftSteeringSensitivity: 80
-  driftFactor: 0.5
+  driftSteeringSensitivity: 50
+  driftFactor: 50
   deceleration: 0.5

@@ -5,14 +5,14 @@ using UnityEngine.InputSystem;
 
 public class InputManager : MonoBehaviour
 {
-    public OriginalInputControlsClass _inputActions;
+    public PlayerInputControls _inputActions;
     public static InputManager Instance;
     private void Awake()
     {
         if (Instance == null)
         {
             Instance = this;
-            _inputActions = new OriginalInputControlsClass();
+            _inputActions = new PlayerInputControls();
             DontDestroyOnLoad(gameObject);
         }
         else if (Instance != null)
