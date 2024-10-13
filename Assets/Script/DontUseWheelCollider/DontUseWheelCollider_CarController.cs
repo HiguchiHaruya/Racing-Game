@@ -13,6 +13,8 @@ public class DontUseWheelCollider_CarController : MonoBehaviour, DontUseWheelCol
     private float _backInput;
     private bool _isDrifting;     // ドリフト中かどうか
     private bool _isForwardInput;
+    [SerializeField]
+    private WheelCollider rearLeft, rearRight;
     public float CurrentSpeed => _currentSpeed;
     private void Awake()
     {
@@ -48,14 +50,10 @@ public class DontUseWheelCollider_CarController : MonoBehaviour, DontUseWheelCol
 
     private void FixedUpdate()
     {
-        // 各動作を物理フレームで行う
         HandleMovement();
         HandleSteering();
         BackMovement();
-        if (_isDrifting)
-        {
-            HandleDrift();
-        }
+        HandleDrift();
 
         // 速度制御：最大速度を超えないようにする
         if (_rb.velocity.magnitude > _carParameters.maxSpeed)
@@ -85,7 +83,7 @@ public class DontUseWheelCollider_CarController : MonoBehaviour, DontUseWheelCol
         //pivot.transform.position = this.transform.position;
         // 前進・後退の処理
         float targetSpeed = _forwardInput * _carParameters.maxSpeed;
-
+        float decelertion = _isDrifting ? 0 : _carParameters.deceleration;
         // 現在の速度と目標速度の間を滑らかに移行（自然な減速を実現）
         if (_forwardInput > 0)
         {
@@ -100,9 +98,10 @@ public class DontUseWheelCollider_CarController : MonoBehaviour, DontUseWheelCol
         }
 
         // Rigidbodyを使用して物理的に移動
-        Vector3 velocity = transform.forward * _currentSpeed;
-        velocity.y = _rb.velocity.y; // 垂直方向の速度を維持する
-        _rb.velocity = velocity;
+        Vector3 Force = transform.forward * _currentSpeed;
+        Force.y = _rb.velocity.y; // 垂直方向の速度を維持する
+        //_rb.velocity = Force;
+        _rb.AddForce(Force, ForceMode.Acceleration);
     }
     void BackMovement()
     {
@@ -111,7 +110,7 @@ public class DontUseWheelCollider_CarController : MonoBehaviour, DontUseWheelCol
         {
             _currentSpeed = Mathf.Lerp(_currentSpeed, targetSpeed, _carParameters.acceleration * Time.fixedDeltaTime);
         }
-        else if(_backInput <= 0 && _forwardInput <= 0) 
+        else if (_backInput <= 0 && _forwardInput <= 0)
         {
             _currentSpeed = Mathf.Lerp(_currentSpeed, 0, _carParameters.deceleration * Time.fixedDeltaTime);
         }
@@ -132,14 +131,19 @@ public class DontUseWheelCollider_CarController : MonoBehaviour, DontUseWheelCol
 
     public void HandleDrift()
     {
-        Vector3 driftDirection = transform.right * _steeringInput; // 右方向に力を加える
-        _rb.AddForce(driftDirection * 500 * Time.fixedDeltaTime, ForceMode.Acceleration);
-
-        // カウンターステアをするために入力を反転して加える（ドリフト感を出す）
-        if (_steeringInput != 0)
+        //Vector3 driftDirection = transform.right * _steeringInput;
+        //_rb.AddForce(driftDirection * 500 * Time.fixedDeltaTime, ForceMode.Impulse);
+        WheelFrictionCurve sideways = rearLeft.sidewaysFriction;
+        if (_isDrifting)
         {
-            float counterSteer = _steeringInput * 500 * 0.5f * Time.fixedDeltaTime;
-            _rb.AddTorque(Vector3.up * counterSteer, ForceMode.Acceleration);
+            sideways.stiffness = 5;
         }
+        else
+        {
+            sideways.stiffness = 15;
+        }
+        rearLeft.sidewaysFriction = sideways;
+        rearRight.sidewaysFriction = sideways;
+        Debug.Log($" Stiffness値 :{rearLeft.sidewaysFriction.stiffness}");
     }
 }

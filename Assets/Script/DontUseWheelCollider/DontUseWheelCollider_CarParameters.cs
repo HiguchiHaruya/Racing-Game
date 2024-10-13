@@ -11,4 +11,5 @@ public class DontUseWheelCollider_CarParameters : ScriptableObject
     public float driftSteeringSensitivity = 60;
     public float driftFactor = 0.8f; //ƒhƒŠƒtƒg
     public float deceleration = 8;
+    public float driftDeceleration = 15;
 }
