@@ -13,8 +13,10 @@ public class DontUseWheelCollider_CarController : MonoBehaviour, DontUseWheelCol
     private float _backInput;
     private bool _isDrifting;     // ドリフト中かどうか
     private bool _isForwardInput;
+    private float _suspensionStrength = 10000f;
+    private float _suspensionDistance = 0.5f;
     [SerializeField]
-    private WheelCollider rearLeft, rearRight;
+    private Transform[] _wheelPosition;
     public float CurrentSpeed => _currentSpeed;
     private void Awake()
     {
@@ -54,7 +56,10 @@ public class DontUseWheelCollider_CarController : MonoBehaviour, DontUseWheelCol
         HandleSteering();
         BackMovement();
         HandleDrift();
-
+        for (int i = 0; i < _wheelPosition.Length; i++)
+        {
+            ApplySuspensionForce(_wheelPosition[i]);
+        }
         // 速度制御：最大速度を超えないようにする
         if (_rb.velocity.magnitude > _carParameters.maxSpeed)
         {
@@ -122,7 +127,7 @@ public class DontUseWheelCollider_CarController : MonoBehaviour, DontUseWheelCol
         float steeringSensitivity = _isDrifting ? _carParameters.driftSteeringSensitivity : _carParameters.steeringSensitivity;
 
         // ステアリング角度を決定（ドリフト中は感度を高める）
-        float turnAmount = _steeringInput * steeringSensitivity * Time.fixedDeltaTime;
+        float turnAmount = _steeringInput * (steeringSensitivity * Time.fixedDeltaTime );
 
         // Y軸回転の適用
         Quaternion deltaRotation = Quaternion.Euler(0f, turnAmount, 0f);
@@ -131,19 +136,28 @@ public class DontUseWheelCollider_CarController : MonoBehaviour, DontUseWheelCol
 
     public void HandleDrift()
     {
-        //Vector3 driftDirection = transform.right * _steeringInput;
-        //_rb.AddForce(driftDirection * 500 * Time.fixedDeltaTime, ForceMode.Impulse);
-        WheelFrictionCurve sideways = rearLeft.sidewaysFriction;
-        if (_isDrifting)
+        ////Vector3 driftDirection = transform.right * _steeringInput;
+        ////_rb.AddForce(driftDirection * 500 * Time.fixedDeltaTime, ForceMode.Impulse);
+        //WheelFrictionCurve sideways = rearLeft.sidewaysFriction;
+        //if (_isDrifting)
+        //{
+        //    sideways.stiffness = 5;
+        //}
+        //else
+        //{
+        //    sideways.stiffness = 15;
+        //}
+        //rearLeft.sidewaysFriction = sideways;
+        //rearRight.sidewaysFriction = sideways;
+        //Debug.Log($" Stiffness値 :{rearLeft.sidewaysFriction.stiffness}");
+    }
+    private void ApplySuspensionForce(Transform wheelPos)
+    {
+        RaycastHit ray;
+        if (Physics.Raycast(wheelPos.position, -wheelPos.up, out ray, _suspensionDistance))
         {
-            sideways.stiffness = 5;
+            float force = _suspensionStrength * (_suspensionDistance - ray.distance);
+            _rb.AddForceAtPosition(wheelPos.up * force, wheelPos.position);
         }
-        else
-        {
-            sideways.stiffness = 15;
-        }
-        rearLeft.sidewaysFriction = sideways;
-        rearRight.sidewaysFriction = sideways;
-        Debug.Log($" Stiffness値 :{rearLeft.sidewaysFriction.stiffness}");
     }
 }
