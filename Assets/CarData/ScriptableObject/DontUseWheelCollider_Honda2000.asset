@@ -13,10 +13,10 @@ MonoBehaviour:
   m_Name: DontUseWheelCollider_Honda2000
   m_EditorClassIdentifier: 
   maxSpeed: 30
-  acceleration: 1.25
+  acceleration: 1.15
   brakingPower: 30
-  steeringSensitivity: 50
-  driftSteeringSensitivity: 60
+  steeringSensitivity: 100
+  driftSteeringSensitivity: 150
   driftFactor: 0.95
-  deceleration: 2
+  deceleration: 8
   driftDeceleration: 15

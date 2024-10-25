@@ -17,6 +17,8 @@ public class DontUseWheelCollider_CarController : MonoBehaviour, DontUseWheelCol
     private float _suspensionDistance = 0.5f;
     [SerializeField]
     private Transform[] _wheelPosition;
+    [SerializeField]
+    private WheelCollider _rearRight, _rearLeft;
     public float CurrentSpeed => _currentSpeed;
     private void Awake()
     {
@@ -33,15 +35,6 @@ public class DontUseWheelCollider_CarController : MonoBehaviour, DontUseWheelCol
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
-        if (_rb == null)
-        {
-            Debug.LogError("Rigidbodyがアタッチされていません！");
-        }
-
-        // Rigidbodyの設定を調整して、物理挙動が安定するようにする
-        _rb.drag = 0.5f;  // 車の抵抗を少し加えて自然な減速を実現
-        _rb.angularDrag = 2f;  // 回転の過剰な累積を防ぐための角度抵抗
-        _rb.mass = 2000; // 車両の質量を適切に設定
     }
 
     private void Update()
@@ -56,11 +49,7 @@ public class DontUseWheelCollider_CarController : MonoBehaviour, DontUseWheelCol
         HandleSteering();
         BackMovement();
         HandleDrift();
-        for (int i = 0; i < _wheelPosition.Length; i++)
-        {
-            ApplySuspensionForce(_wheelPosition[i]);
-        }
-        // 速度制御：最大速度を超えないようにする
+        //// 速度制御：最大速度を超えないようにする
         if (_rb.velocity.magnitude > _carParameters.maxSpeed)
         {
             _rb.velocity = _rb.velocity.normalized * _carParameters.maxSpeed;
@@ -69,7 +58,7 @@ public class DontUseWheelCollider_CarController : MonoBehaviour, DontUseWheelCol
 
     private void ReceiveInput()
     {
-        // 前進・後退の入力値を取得 (Wキー、MoveForward)
+        // 前進・後退の入力値を取得 (Wキー/Sキー)
         _forwardInput = InputManager.Instance._inputActions.PlayerActionMap.MoveForward.ReadValue<float>();
 
         // 左右の入力値を取得 (A/Dキー)
@@ -85,7 +74,6 @@ public class DontUseWheelCollider_CarController : MonoBehaviour, DontUseWheelCol
 
     public void HandleMovement()
     {
-        //pivot.transform.position = this.transform.position;
         // 前進・後退の処理
         float targetSpeed = _forwardInput * _carParameters.maxSpeed;
         float decelertion = _isDrifting ? 0 : _carParameters.deceleration;
@@ -124,40 +112,41 @@ public class DontUseWheelCollider_CarController : MonoBehaviour, DontUseWheelCol
     public void HandleSteering()
     {
         // ステアリングの処理
-        float steeringSensitivity = _isDrifting ? _carParameters.driftSteeringSensitivity : _carParameters.steeringSensitivity;
+        float steeringSensitivity = _isDrifting ? driftSteering : _carParameters.steeringSensitivity;
 
         // ステアリング角度を決定（ドリフト中は感度を高める）
-        float turnAmount = _steeringInput * (steeringSensitivity * Time.fixedDeltaTime );
+        float turnAmount = _steeringInput * (steeringSensitivity * Time.fixedDeltaTime);
 
         // Y軸回転の適用
         Quaternion deltaRotation = Quaternion.Euler(0f, turnAmount, 0f);
         _rb.MoveRotation(_rb.rotation * deltaRotation);
     }
-
+    float driftSteering;
+    float time = 0;
     public void HandleDrift()
     {
-        ////Vector3 driftDirection = transform.right * _steeringInput;
-        ////_rb.AddForce(driftDirection * 500 * Time.fixedDeltaTime, ForceMode.Impulse);
-        //WheelFrictionCurve sideways = rearLeft.sidewaysFriction;
-        //if (_isDrifting)
-        //{
-        //    sideways.stiffness = 5;
-        //}
-        //else
-        //{
-        //    sideways.stiffness = 15;
-        //}
-        //rearLeft.sidewaysFriction = sideways;
-        //rearRight.sidewaysFriction = sideways;
-        //Debug.Log($" Stiffness値 :{rearLeft.sidewaysFriction.stiffness}");
-    }
-    private void ApplySuspensionForce(Transform wheelPos)
-    {
-        RaycastHit ray;
-        if (Physics.Raycast(wheelPos.position, -wheelPos.up, out ray, _suspensionDistance))
+        WheelFrictionCurve sidewaysFriction = _rearLeft.sidewaysFriction;
+        WheelFrictionCurve forwardFriction = _rearRight.forwardFriction;
+        Debug.Log(sidewaysFriction.stiffness);
+        if (_isDrifting)
         {
-            float force = _suspensionStrength * (_suspensionDistance - ray.distance);
-            _rb.AddForceAtPosition(wheelPos.up * force, wheelPos.position);
+            time += Time.deltaTime;
+            driftSteering = Mathf.Lerp(_carParameters.steeringSensitivity, _carParameters.driftSteeringSensitivity, time / 1.1f);
+            sidewaysFriction.stiffness = 0.25f;
+            forwardFriction.stiffness = 0.5f;
+            sidewaysFriction.stiffness = Mathf.Lerp(5, 0.25f, time / 1.25f);
+            forwardFriction.stiffness = Mathf.Lerp(5, 0.5f, time / 1.25f);
         }
+        else
+        {
+            driftSteering = _carParameters.steeringSensitivity;
+            time = 0;
+            forwardFriction.stiffness = 5f;
+            sidewaysFriction.stiffness = 5f;
+        }
+        _rearLeft.sidewaysFriction = sidewaysFriction;
+        _rearRight.sidewaysFriction = sidewaysFriction;
+        _rearLeft.forwardFriction = forwardFriction;
+        _rearRight.forwardFriction = forwardFriction;
     }
 }
