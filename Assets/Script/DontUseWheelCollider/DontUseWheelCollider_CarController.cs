@@ -18,7 +18,7 @@ public class DontUseWheelCollider_CarController : MonoBehaviour, DontUseWheelCol
     [SerializeField]
     private Transform[] _wheelPosition;
     [SerializeField]
-    private WheelCollider _rearRight, _rearLeft;
+    private WheelCollider _rearRight, _rearLeft, _frontRight, _frontLeft;
     public float CurrentSpeed => _currentSpeed;
     private void Awake()
     {
@@ -49,6 +49,7 @@ public class DontUseWheelCollider_CarController : MonoBehaviour, DontUseWheelCol
         HandleSteering();
         BackMovement();
         HandleDrift();
+       // Debug.Log(GetCurrentSpeed() * 2);
         //// 速度制御：最大速度を超えないようにする
         if (_rb.velocity.magnitude > _carParameters.maxSpeed)
         {
@@ -96,6 +97,13 @@ public class DontUseWheelCollider_CarController : MonoBehaviour, DontUseWheelCol
         //_rb.velocity = Force;
         _rb.AddForce(Force, ForceMode.Acceleration);
     }
+    public float GetCurrentSpeed()
+    {
+        float wheelRadius = _rearLeft.radius;
+        float avgRpm = (_frontLeft.rpm + _rearRight.rpm + _frontRight.rpm + _rearLeft.rpm) / 4; //各タイヤの1分間の回転数(rpm)の平均
+        float currentSpeed = 2 * Mathf.PI * wheelRadius * avgRpm / 60; //回転数からm/sに変換する
+        return currentSpeed * 3.6f; //m/hに変換してreturn
+    }
     void BackMovement()
     {
         float targetSpeed = _backInput * -_carParameters.maxSpeed;
@@ -127,7 +135,6 @@ public class DontUseWheelCollider_CarController : MonoBehaviour, DontUseWheelCol
     {
         WheelFrictionCurve sidewaysFriction = _rearLeft.sidewaysFriction;
         WheelFrictionCurve forwardFriction = _rearRight.forwardFriction;
-        Debug.Log(sidewaysFriction.stiffness);
         if (_isDrifting)
         {
             time += Time.deltaTime;
@@ -141,8 +148,8 @@ public class DontUseWheelCollider_CarController : MonoBehaviour, DontUseWheelCol
         {
             driftSteering = _carParameters.steeringSensitivity;
             time = 0;
-            forwardFriction.stiffness = 5f;
-            sidewaysFriction.stiffness = 5f;
+            forwardFriction.stiffness = 5.5f;
+            sidewaysFriction.stiffness = 5.5f;
         }
         _rearLeft.sidewaysFriction = sidewaysFriction;
         _rearRight.sidewaysFriction = sidewaysFriction;

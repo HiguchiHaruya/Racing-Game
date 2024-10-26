@@ -9,7 +9,7 @@ public class UiManager : MonoBehaviour
     Image _speedMeter;
     void Update()
     {
-        _speedMeter.transform.Rotate(0, 0, -DontUseWheelCollider_CarController.Instance.CurrentSpeed / 250);
+        _speedMeter.fillAmount = DontUseWheelCollider_CarController.Instance.GetCurrentSpeed() / 100;
     }
 
 }
