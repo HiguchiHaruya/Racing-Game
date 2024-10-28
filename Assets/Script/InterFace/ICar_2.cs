@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-interface DontUseWheelCollider_ICar
+interface ICar_2
 {
     /// <summary> Ô‚Ì‘OŒãˆÚ“®‚ğŠÇ—</summary>
     void HandleMovement();

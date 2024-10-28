@@ -2,23 +2,22 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class DontUseWheelCollider_CarController : MonoBehaviour, DontUseWheelCollider_ICar
+public class CarController : MonoBehaviour, ICar_2
 {
-    public static DontUseWheelCollider_CarController Instance;
+    public static CarController Instance;
     public DontUseWheelCollider_CarParameters _carParameters;
     private Rigidbody _rb;
     private float _currentSpeed;
     private float _forwardInput;  // 前進・後退の入力を保持
     private float _steeringInput; // 左右の入力を保持
     private float _backInput;
+    float steeringSensitivity;
     private bool _isDrifting;     // ドリフト中かどうか
-    private bool _isForwardInput;
-    private float _suspensionStrength = 10000f;
-    private float _suspensionDistance = 0.5f;
-    [SerializeField]
-    private Transform[] _wheelPosition;
+    private float _steeringLimit = 5;
+    private float _targetSpeed = 100f;
     [SerializeField]
     private WheelCollider _rearRight, _rearLeft, _frontRight, _frontLeft;
+    public float currentSpeed;
     public float CurrentSpeed => _currentSpeed;
     private void Awake()
     {
@@ -35,6 +34,7 @@ public class DontUseWheelCollider_CarController : MonoBehaviour, DontUseWheelCol
     private void Start()
     {
         _rb = GetComponent<Rigidbody>();
+        steeringSensitivity = _carParameters.steeringSensitivity;
     }
 
     private void Update()
@@ -49,7 +49,7 @@ public class DontUseWheelCollider_CarController : MonoBehaviour, DontUseWheelCol
         HandleSteering();
         BackMovement();
         HandleDrift();
-       // Debug.Log(GetCurrentSpeed() * 2);
+        // Debug.Log(GetCurrentSpeed() * 2);
         //// 速度制御：最大速度を超えないようにする
         if (_rb.velocity.magnitude > _carParameters.maxSpeed)
         {
@@ -75,20 +75,20 @@ public class DontUseWheelCollider_CarController : MonoBehaviour, DontUseWheelCol
 
     public void HandleMovement()
     {
+        float speed = _targetSpeed / 3.6f; // km/hをm/sに変換
+        //float targetSpeedForCurrentGear = Mathf.Clamp(speed, 0, _carParameters.gearMaxSpeeds[] / 3.6f); ギアによって速度変える
         // 前進・後退の処理
         float targetSpeed = _forwardInput * _carParameters.maxSpeed;
         float decelertion = _isDrifting ? 0 : _carParameters.deceleration;
         // 現在の速度と目標速度の間を滑らかに移行（自然な減速を実現）
         if (_forwardInput > 0)
         {
-            _currentSpeed = Mathf.Lerp(_currentSpeed, targetSpeed, _carParameters.acceleration * Time.fixedDeltaTime);
-            _isForwardInput = true;
+            _currentSpeed = Mathf.Lerp(_currentSpeed, _targetSpeed, _carParameters.acceleration * Time.fixedDeltaTime);
         }
         else
         {
             // 入力がない場合は減速
             _currentSpeed = Mathf.Lerp(_currentSpeed, 0, _carParameters.deceleration * Time.fixedDeltaTime);
-            _isForwardInput = false;
         }
 
         // Rigidbodyを使用して物理的に移動
@@ -97,12 +97,11 @@ public class DontUseWheelCollider_CarController : MonoBehaviour, DontUseWheelCol
         //_rb.velocity = Force;
         _rb.AddForce(Force, ForceMode.Acceleration);
     }
-    public float GetCurrentSpeed()
+    public void GetCurrentSpeed()
     {
         float wheelRadius = _rearLeft.radius;
         float avgRpm = (_frontLeft.rpm + _rearRight.rpm + _frontRight.rpm + _rearLeft.rpm) / 4; //各タイヤの1分間の回転数(rpm)の平均
-        float currentSpeed = 2 * Mathf.PI * wheelRadius * avgRpm / 60; //回転数からm/sに変換する
-        return currentSpeed * 3.6f; //m/hに変換してreturn
+         _currentSpeed = (2 * Mathf.PI * wheelRadius * avgRpm / 60) * 3.6f; //km/hでの速度
     }
     void BackMovement()
     {
@@ -119,12 +118,17 @@ public class DontUseWheelCollider_CarController : MonoBehaviour, DontUseWheelCol
 
     public void HandleSteering()
     {
-        // ステアリングの処理
-        float steeringSensitivity = _isDrifting ? driftSteering : _carParameters.steeringSensitivity;
-
-        // ステアリング角度を決定（ドリフト中は感度を高める）
         float turnAmount = _steeringInput * (steeringSensitivity * Time.fixedDeltaTime);
-
+        if (_steeringInput != 0)
+        {
+            Debug.Log("だんだん遅くなる");
+            steeringSensitivity = Mathf.Lerp(steeringSensitivity, 0, Time.deltaTime / 5f);
+        }
+        else
+        {
+            Debug.Log("これで元通り");
+            steeringSensitivity = _isDrifting ? driftSteering : _carParameters.steeringSensitivity;
+        }
         // Y軸回転の適用
         Quaternion deltaRotation = Quaternion.Euler(0f, turnAmount, 0f);
         _rb.MoveRotation(_rb.rotation * deltaRotation);
@@ -139,17 +143,17 @@ public class DontUseWheelCollider_CarController : MonoBehaviour, DontUseWheelCol
         {
             time += Time.deltaTime;
             driftSteering = Mathf.Lerp(_carParameters.steeringSensitivity, _carParameters.driftSteeringSensitivity, time / 1.1f);
-            sidewaysFriction.stiffness = 0.25f;
+            sidewaysFriction.stiffness = 0.2f;
             forwardFriction.stiffness = 0.5f;
-            sidewaysFriction.stiffness = Mathf.Lerp(5, 0.25f, time / 1.25f);
-            forwardFriction.stiffness = Mathf.Lerp(5, 0.5f, time / 1.25f);
+            //sidewaysFriction.stiffness = Mathf.Lerp(6, 0.25f, time / 1.25f);
+            //forwardFriction.stiffness = Mathf.Lerp(6, 0.5f, time / 1.25f);
         }
         else
         {
             driftSteering = _carParameters.steeringSensitivity;
             time = 0;
-            forwardFriction.stiffness = 5.5f;
-            sidewaysFriction.stiffness = 5.5f;
+            forwardFriction.stiffness = 6f;
+            sidewaysFriction.stiffness = 6f;
         }
         _rearLeft.sidewaysFriction = sidewaysFriction;
         _rearRight.sidewaysFriction = sidewaysFriction;

@@ -6,10 +6,14 @@ using UnityEngine.UI;
 public class UiManager : MonoBehaviour
 {
     [SerializeField]
-    Image _speedMeter;
+    Slider _speedSlider;
+    private void Start()
+    {
+        _speedSlider.maxValue = 100;
+    }
     void Update()
     {
-        _speedMeter.fillAmount = DontUseWheelCollider_CarController.Instance.GetCurrentSpeed() / 100;
+        _speedSlider.value = CarController.Instance.CurrentSpeed;
     }
 
 }

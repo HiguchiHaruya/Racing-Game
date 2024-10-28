@@ -10,13 +10,27 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9a6301c0e448c2a4e8a49f6f8733b66b, type: 3}
-  m_Name: DontUseWheelCollider_Honda2000
+  m_Name: ScriptableObject_Honda2000
   m_EditorClassIdentifier: 
   maxSpeed: 30
-  acceleration: 1.15
+  acceleration: 0.25
   brakingPower: 30
   steeringSensitivity: 100
   driftSteeringSensitivity: 165
   driftFactor: 0.95
-  deceleration: 8
+  deceleration: 5
   driftDeceleration: 15
+  gearMaxSpeeds:
+  - 0
+  - 10
+  - 15
+  - 20
+  - 25
+  - 30
+  gearAccelerations:
+  - 0
+  - 0.2
+  - 0.25
+  - 0.3
+  - 0.35
+  - 0.4
