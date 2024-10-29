@@ -127,7 +127,8 @@ public class CarController : MonoBehaviour, ICar_2
         else
         {
             Debug.Log("‚±‚ê‚ÅŒ³’Ê‚è");
-            steeringSensitivity = _isDrifting ? driftSteering : _carParameters.steeringSensitivity;
+            steeringSensitivity = _isDrifting ? _carParameters.driftSteeringSensitivity : _carParameters.steeringSensitivity;
+            steeringSensitivity = _isDrifting ? Mathf.Lerp(steeringSensitivity, _carParameters.driftSteeringSensitivity, Time.deltaTime / 1.5f) : Mathf.Lerp(steeringSensitivity, _carParameters.steeringSensitivity, Time.deltaTime / 1.5f);
         }
         // YŽ²‰ñ“]‚Ì“K—p
         Quaternion deltaRotation = Quaternion.Euler(0f, turnAmount, 0f);
