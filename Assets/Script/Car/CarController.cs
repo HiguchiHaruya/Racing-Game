@@ -119,17 +119,17 @@ public class CarController : MonoBehaviour, ICar_2
     public void HandleSteering()
     {
         float turnAmount = _steeringInput * (steeringSensitivity * Time.fixedDeltaTime);
-        if (_steeringInput != 0)
-        {
-            Debug.Log("‚¾‚ñ‚¾‚ñ’x‚­‚È‚é");
-            steeringSensitivity = Mathf.Lerp(steeringSensitivity, 0, Time.deltaTime / 5f);
-        }
-        else
-        {
-            Debug.Log("‚±‚ê‚ÅŒ³’Ê‚è");
-            steeringSensitivity = _isDrifting ? _carParameters.driftSteeringSensitivity : _carParameters.steeringSensitivity;
-            steeringSensitivity = _isDrifting ? Mathf.Lerp(steeringSensitivity, _carParameters.driftSteeringSensitivity, Time.deltaTime / 1.5f) : Mathf.Lerp(steeringSensitivity, _carParameters.steeringSensitivity, Time.deltaTime / 1.5f);
-        }
+        //if (_steeringInput != 0)
+        //{
+        //    Debug.Log("‚¾‚ñ‚¾‚ñ’x‚­‚È‚é");
+        //    steeringSensitivity = Mathf.Lerp(steeringSensitivity, 0, Time.deltaTime / 5f);
+        //}
+        //else
+        //{
+        //    Debug.Log("‚±‚ê‚ÅŒ³’Ê‚è");
+        //    steeringSensitivity = _isDrifting ? _carParameters.driftSteeringSensitivity : _carParameters.steeringSensitivity;
+        //    steeringSensitivity = _isDrifting ? Mathf.Lerp(steeringSensitivity, _carParameters.driftSteeringSensitivity, Time.deltaTime / 1.5f) : Mathf.Lerp(steeringSensitivity, _carParameters.steeringSensitivity, Time.deltaTime / 1.5f);
+        //}
         // YŽ²‰ñ“]‚Ì“K—p
         Quaternion deltaRotation = Quaternion.Euler(0f, turnAmount, 0f);
         _rb.MoveRotation(_rb.rotation * deltaRotation);
