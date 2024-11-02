@@ -79,7 +79,6 @@ public class CarController : MonoBehaviour, ICar_2
         //float targetSpeedForCurrentGear = Mathf.Clamp(speed, 0, _carParameters.gearMaxSpeeds[] / 3.6f); ギアによって速度変える
         // 前進・後退の処理
         float targetSpeed = _forwardInput * _carParameters.maxSpeed;
-        float decelertion = _isDrifting ? 0 : _carParameters.deceleration;
         // 現在の速度と目標速度の間を滑らかに移行（自然な減速を実現）
         if (_forwardInput > 0)
         {
@@ -101,7 +100,7 @@ public class CarController : MonoBehaviour, ICar_2
     {
         float wheelRadius = _rearLeft.radius;
         float avgRpm = (_frontLeft.rpm + _rearRight.rpm + _frontRight.rpm + _rearLeft.rpm) / 4; //各タイヤの1分間の回転数(rpm)の平均
-         _currentSpeed = (2 * Mathf.PI * wheelRadius * avgRpm / 60) * 3.6f; //km/hでの速度
+        _currentSpeed = (2 * Mathf.PI * wheelRadius * avgRpm / 60) * 3.6f; //km/hでの速度
     }
     void BackMovement()
     {
@@ -118,21 +117,14 @@ public class CarController : MonoBehaviour, ICar_2
 
     public void HandleSteering()
     {
-        float turnAmount = _steeringInput * (steeringSensitivity * Time.fixedDeltaTime);
-        //if (_steeringInput != 0)
-        //{
-        //    Debug.Log("だんだん遅くなる");
-        //    steeringSensitivity = Mathf.Lerp(steeringSensitivity, 0, Time.deltaTime / 5f);
-        //}
-        //else
-        //{
-        //    Debug.Log("これで元通り");
-        //    steeringSensitivity = _isDrifting ? _carParameters.driftSteeringSensitivity : _carParameters.steeringSensitivity;
-        //    steeringSensitivity = _isDrifting ? Mathf.Lerp(steeringSensitivity, _carParameters.driftSteeringSensitivity, Time.deltaTime / 1.5f) : Mathf.Lerp(steeringSensitivity, _carParameters.steeringSensitivity, Time.deltaTime / 1.5f);
-        //}
+        float turnAmount = _steeringInput * (driftSteering * Time.fixedDeltaTime);
         // Y軸回転の適用
         Quaternion deltaRotation = Quaternion.Euler(0f, turnAmount, 0f);
         _rb.MoveRotation(_rb.rotation * deltaRotation);
+        float sensitivity = _isDrifting ? _carParameters.driftSteeringSensitivity : _carParameters.steeringSensitivity;
+        float angle = _steeringInput * sensitivity;
+        _frontLeft.steerAngle = angle;
+        _frontRight.steerAngle = angle;
     }
     float driftSteering;
     float time = 0;
@@ -144,8 +136,8 @@ public class CarController : MonoBehaviour, ICar_2
         {
             time += Time.deltaTime;
             driftSteering = Mathf.Lerp(_carParameters.steeringSensitivity, _carParameters.driftSteeringSensitivity, time / 1.1f);
-            sidewaysFriction.stiffness = 0.2f;
-            forwardFriction.stiffness = 0.5f;
+            sidewaysFriction.stiffness = 2f;
+            forwardFriction.stiffness = 2f;
             //sidewaysFriction.stiffness = Mathf.Lerp(6, 0.25f, time / 1.25f);
             //forwardFriction.stiffness = Mathf.Lerp(6, 0.5f, time / 1.25f);
         }

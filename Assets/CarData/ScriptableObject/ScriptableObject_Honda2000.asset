@@ -12,14 +12,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9a6301c0e448c2a4e8a49f6f8733b66b, type: 3}
   m_Name: ScriptableObject_Honda2000
   m_EditorClassIdentifier: 
-  maxSpeed: 30
+  maxSpeed: 25
   acceleration: 0.25
   brakingPower: 30
-  steeringSensitivity: 65
-  driftSteeringSensitivity: 100
+  steeringSensitivity: 60
+  driftSteeringSensitivity: 65
   driftFactor: 0.95
-  deceleration: 1.5
-  driftDeceleration: 15
+  deceleration: 0.5
+  driftDeceleration: 10
   gearMaxSpeeds:
   - 0
   - 10
