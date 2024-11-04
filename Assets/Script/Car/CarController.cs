@@ -122,7 +122,7 @@ public class CarController : MonoBehaviour, ICar_2
         Quaternion deltaRotation = Quaternion.Euler(0f, turnAmount, 0f);
         _rb.MoveRotation(_rb.rotation * deltaRotation);
         float sensitivity = _isDrifting ? _carParameters.driftSteeringSensitivity : _carParameters.steeringSensitivity;
-        float angle = _steeringInput * sensitivity;
+        float angle = _steeringInput * 65;
         _frontLeft.steerAngle = angle;
         _frontRight.steerAngle = angle;
     }
@@ -136,7 +136,7 @@ public class CarController : MonoBehaviour, ICar_2
         {
             time += Time.deltaTime;
             driftSteering = Mathf.Lerp(_carParameters.steeringSensitivity, _carParameters.driftSteeringSensitivity, time / 1.1f);
-            sidewaysFriction.stiffness = 2f;
+            sidewaysFriction.stiffness = 1.5f;
             forwardFriction.stiffness = 2f;
             //sidewaysFriction.stiffness = Mathf.Lerp(6, 0.25f, time / 1.25f);
             //forwardFriction.stiffness = Mathf.Lerp(6, 0.5f, time / 1.25f);
