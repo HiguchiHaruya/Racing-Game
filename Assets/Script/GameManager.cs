@@ -44,16 +44,16 @@ public class GameManager : MonoBehaviour
     {
         StartCountDown();
         LeaveGame();
-        if (!GetIsGoalFlag() && _isGameStart)
-        {
-            _currentGameTime += Time.deltaTime;
-        }
-        else if(GetIsGoalFlag())
-        {
-            _isGoal = true;
-            Debug.Log("ÉSÅ[ÉãÇµÇ‹ÇµÇΩ");
-            Goal();
-        }
+        //if (!GetIsGoalFlag() && _isGameStart)
+        //{
+        //    _currentGameTime += Time.deltaTime;
+        //}
+        //else if(GetIsGoalFlag())
+        //{
+        //    _isGoal = true;
+        //    Debug.Log("ÉSÅ[ÉãÇµÇ‹ÇµÇΩ");
+        //    Goal();
+        //}
     }
 
     private void Goal()
@@ -72,15 +72,15 @@ public class GameManager : MonoBehaviour
             SceneTransitionManager.Instance.LoadSceneAsync("StartScene");
         }
     }
-    private bool GetIsGoalFlag()
-    {
-        if (Vehicle.Instance.LapCount == 4)
-        {
-            return true;
-        }
-        if (Input.GetKeyDown(KeyCode.P)) { return true; }
-        return false;
-    }
+    //private bool GetIsGoalFlag()
+    //{
+    //    if (Vehicle.Instance.LapCount == 4)
+    //    {
+    //        return true;
+    //    }
+    //    if (Input.GetKeyDown(KeyCode.P)) { return true; }
+    //    return false;
+    //}
 
     private void StartCountDown()
     {

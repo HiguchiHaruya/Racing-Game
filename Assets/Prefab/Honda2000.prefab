@@ -34500,7 +34500,6 @@ GameObject:
   - component: {fileID: 3240185188121650008}
   - component: {fileID: 7191638628807895762}
   - component: {fileID: 5253588678091667127}
-  - component: {fileID: 7260817161475270669}
   - component: {fileID: 2580785727716564849}
   m_Layer: 0
   m_Name: Honda2000
@@ -34641,28 +34640,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _carParameters: {fileID: 11400000, guid: b2139d00e1479154daa877c820b5895c, type: 2}
---- !u!114 &7260817161475270669
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8101198573832956101}
-  m_Enabled: 0
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f5d2f16595399b4cbe076b0a2e4590f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _maxTorque: 550
-  _lapCount: 0
-  angle: 8
-  brake: 1200
-  _tiltSpeed: 5
-  _frontRight: {fileID: 5412644392564976599}
-  _frontLeft: {fileID: 4475472645844224332}
-  _rearRight: {fileID: 7954088154995704831}
-  _rearLeft: {fileID: 7058182506118286055}
-  carSetting: {fileID: 11400000, guid: 054256c1bee4c0b48b328064f348ef10, type: 2}
+  _rearRight: {fileID: 0}
+  _rearLeft: {fileID: 0}
+  _frontRight: {fileID: 0}
+  _frontLeft: {fileID: 0}
+  currentSpeed: 0
 --- !u!114 &2580785727716564849
 MonoBehaviour:
   m_ObjectHideFlags: 0

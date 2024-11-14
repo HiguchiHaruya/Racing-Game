@@ -136,17 +136,15 @@ public class CarController : MonoBehaviour, ICar_2
         {
             time += Time.deltaTime;
             driftSteering = Mathf.Lerp(_carParameters.steeringSensitivity, _carParameters.driftSteeringSensitivity, time / 1.1f);
-            sidewaysFriction.stiffness = 1.5f;
-            forwardFriction.stiffness = 2f;
-            //sidewaysFriction.stiffness = Mathf.Lerp(6, 0.25f, time / 1.25f);
-            //forwardFriction.stiffness = Mathf.Lerp(6, 0.5f, time / 1.25f);
+            sidewaysFriction.stiffness = _carParameters.sideDriftStiffness;
+            forwardFriction.stiffness = _carParameters.forwardDriftStiffness;
         }
         else
         {
             driftSteering = _carParameters.steeringSensitivity;
             time = 0;
-            forwardFriction.stiffness = 6f;
-            sidewaysFriction.stiffness = 6f;
+            forwardFriction.stiffness = _carParameters.forwardNormalStiffness;
+            sidewaysFriction.stiffness = _carParameters.sideNormalStiffness;
         }
         _rearLeft.sidewaysFriction = sidewaysFriction;
         _rearRight.sidewaysFriction = sidewaysFriction;

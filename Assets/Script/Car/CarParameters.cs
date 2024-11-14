@@ -11,6 +11,10 @@ public class DontUseWheelCollider_CarParameters : ScriptableObject
     public float driftSteeringSensitivity = 60;
     public float driftFactor = 0.8f; //ƒhƒŠƒtƒg
     public float deceleration = 8;
+    public float forwardNormalStiffness = 6;
+    public float sideNormalStiffness = 6;
+    public float forwardDriftStiffness = 2;
+    public float sideDriftStiffness = 1.5f;
     public float driftDeceleration = 15;
     public float[] gearMaxSpeeds = { 0, 15, 25, 30, 35 };
     public float[] gearAccelerations = { 0, 0.2f, 0.25f, 0.3f, 0.35f };
