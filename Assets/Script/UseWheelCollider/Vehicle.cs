@@ -62,6 +62,7 @@ public class Vehicle : MonoBehaviour, ICar
     private void Update()
     {
         ChangeState();
+        Debug.Log($"isDrift : {_isDrifting}");
     }
 
     private void ChangeState()
@@ -165,6 +166,7 @@ public class Vehicle : MonoBehaviour, ICar
             //_targetFriction = _driftFriction;
             sidewaysFriction.stiffness = _currentStiffness;
             if (sidewaysFriction.stiffness <= _driftFriction + 0.01) { _isDrifting = true; }
+            _isDrifting = true;
         }
         else
         {

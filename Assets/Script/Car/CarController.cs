@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
 
 public class CarController : MonoBehaviour, ICar_2
@@ -8,17 +9,19 @@ public class CarController : MonoBehaviour, ICar_2
     public DontUseWheelCollider_CarParameters _carParameters;
     private Rigidbody _rb;
     private float _currentSpeed;
-    private float _forwardInput;  // 前進・後退の入力を保持
+    private float forwardInput;  // 前進・後退の入力を保持
     private float _steeringInput; // 左右の入力を保持
     private float _backInput;
     float steeringSensitivity;
     private bool _isDrifting;     // ドリフト中かどうか
     private float _steeringLimit = 5;
     private float _targetSpeed = 100f;
+    private float _forwardInput;
     [SerializeField]
     private WheelCollider _rearRight, _rearLeft, _frontRight, _frontLeft;
     public float currentSpeed;
     public float CurrentSpeed => _currentSpeed;
+    public bool IsDrifting => _isDrifting;
     private void Awake()
     {
         if (Instance == null)
@@ -35,6 +38,13 @@ public class CarController : MonoBehaviour, ICar_2
     {
         _rb = GetComponent<Rigidbody>();
         steeringSensitivity = _carParameters.steeringSensitivity;
+        InputReader.Instance.OnForwardAsObservable()
+                   .Subscribe(context =>
+                   {
+                       _forwardInput = context.ReadValue<float>();
+                       HandleMovement(_forwardInput);
+                   })
+               .AddTo(this);
     }
 
     private void Update()
@@ -45,7 +55,15 @@ public class CarController : MonoBehaviour, ICar_2
 
     private void FixedUpdate()
     {
-        HandleMovement();
+        if (Input.GetKeyDown(KeyCode.N))
+        {
+            CameraSwitcher.Instance.ActiveCam2();
+        }
+        if (Input.GetKeyDown(KeyCode.M))
+        {
+            CameraSwitcher.Instance.ActiveCam1();
+        }
+        HandleMovement(_forwardInput);
         HandleSteering();
         BackMovement();
         HandleDrift();
@@ -59,8 +77,8 @@ public class CarController : MonoBehaviour, ICar_2
 
     private void ReceiveInput()
     {
-        // 前進・後退の入力値を取得 (Wキー/Sキー)
-        _forwardInput = InputManager.Instance._inputActions.PlayerActionMap.MoveForward.ReadValue<float>();
+        // 前進の入力値を取得 (Wキー)
+        //forwardInput = InputManager.Instance._inputActions.PlayerActionMap.MoveForward.ReadValue<float>();
 
         // 左右の入力値を取得 (A/Dキー)
         float moveLeft = InputManager.Instance._inputActions.PlayerActionMap.MoveLeft.ReadValue<float>();
@@ -71,16 +89,18 @@ public class CarController : MonoBehaviour, ICar_2
 
         // ドリフトの入力値を取得 (Shiftキー)
         _isDrifting = InputManager.Instance._inputActions.PlayerActionMap.Drift.ReadValue<float>() > 0;
+
+
     }
 
-    public void HandleMovement()
+    public void HandleMovement(float forwardInput)
     {
         float speed = _targetSpeed / 3.6f; // km/hをm/sに変換
         //float targetSpeedForCurrentGear = Mathf.Clamp(speed, 0, _carParameters.gearMaxSpeeds[] / 3.6f); ギアによって速度変える
         // 前進・後退の処理
-        float targetSpeed = _forwardInput * _carParameters.maxSpeed;
+        float targetSpeed = forwardInput * _carParameters.maxSpeed;
         // 現在の速度と目標速度の間を滑らかに移行（自然な減速を実現）
-        if (_forwardInput > 0)
+        if (forwardInput > 0)
         {
             _currentSpeed = Mathf.Lerp(_currentSpeed, _targetSpeed, _carParameters.acceleration * Time.fixedDeltaTime);
         }

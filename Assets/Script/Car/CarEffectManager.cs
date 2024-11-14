@@ -10,7 +10,7 @@ public class CarEffectManager : MonoBehaviour
     private TrailRenderer _rightSlipEffect;
     void Update()
     {
-        if (Vehicle.Instance.IsDrifting)
+        if (CarController.Instance.IsDrifting)
         {
             _leftSlipEffect.emitting = true;
             _rightSlipEffect.emitting = true;
