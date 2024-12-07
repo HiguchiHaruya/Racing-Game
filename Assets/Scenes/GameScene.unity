@@ -40313,6 +40313,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: Honda2000
       objectReference: {fileID: 0}
+    - target: {fileID: 8101198573832956101, guid: 4926016863a3104439356465fb296e27,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 8116253752493213659, guid: 4926016863a3104439356465fb296e27,
         type: 3}
       propertyPath: m_LightProbeUsage

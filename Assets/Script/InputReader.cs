@@ -70,6 +70,6 @@ public class InputReader : Singleton<InputReader>, PlayerInputControls.IPlayerAc
     }
     public void OnBack(InputAction.CallbackContext context)
     {
-        
+
     }
 }

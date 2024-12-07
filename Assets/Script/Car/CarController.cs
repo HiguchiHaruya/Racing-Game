@@ -9,7 +9,6 @@ public class CarController : MonoBehaviour, ICar_2
     public DontUseWheelCollider_CarParameters _carParameters;
     private Rigidbody _rb;
     private float _currentSpeed;
-    private float forwardInput;  // 前進・後退の入力を保持
     private float _steeringInput; // 左右の入力を保持
     private float _backInput;
     float steeringSensitivity;
@@ -19,11 +18,13 @@ public class CarController : MonoBehaviour, ICar_2
     private float _forwardInput;
     [SerializeField]
     private WheelCollider _rearRight, _rearLeft, _frontRight, _frontLeft;
+
     public float currentSpeed;
     public float CurrentSpeed => _currentSpeed;
     public bool IsDrifting => _isDrifting;
     private void Awake()
     {
+        WheelCollider[] w = new WheelCollider[4] { _rearRight, _rearLeft, _frontRight, _frontLeft };
         if (Instance == null)
         {
             Instance = this;
@@ -32,6 +33,10 @@ public class CarController : MonoBehaviour, ICar_2
         else
         {
             Destroy(Instance);
+        }
+        foreach(var a in w)
+        {
+            Debug.Log($"{a.name} の位置 : {a.transform.position}");
         }
     }
     private void Start()
@@ -45,6 +50,8 @@ public class CarController : MonoBehaviour, ICar_2
                        HandleMovement(_forwardInput);
                    })
                .AddTo(this);
+
+
     }
 
     private void Update()
@@ -116,11 +123,12 @@ public class CarController : MonoBehaviour, ICar_2
         //_rb.velocity = Force;
         _rb.AddForce(Force, ForceMode.Acceleration);
     }
-    public void GetCurrentSpeed()
+    public float GetCurrentSpeed()
     {
-        float wheelRadius = _rearLeft.radius;
-        float avgRpm = (_frontLeft.rpm + _rearRight.rpm + _frontRight.rpm + _rearLeft.rpm) / 4; //各タイヤの1分間の回転数(rpm)の平均
-        _currentSpeed = (2 * Mathf.PI * wheelRadius * avgRpm / 60) * 3.6f; //km/hでの速度
+        //float wheelRadius = _rearLeft.radius;
+        //float avgRpm = (_frontLeft.rpm + _rearRight.rpm + _frontRight.rpm + _rearLeft.rpm) / 4; //各タイヤの1分間の回転数(rpm)の平均
+        //_currentSpeed = (2 * Mathf.PI * wheelRadius * avgRpm / 60) * 3.6f; //km/hでの速度
+        return _rb.velocity.magnitude * 3.6f;
     }
     void BackMovement()
     {
