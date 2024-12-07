@@ -24,7 +24,6 @@ public class CarController : MonoBehaviour, ICar_2
     public bool IsDrifting => _isDrifting;
     private void Awake()
     {
-        WheelCollider[] w = new WheelCollider[4] { _rearRight, _rearLeft, _frontRight, _frontLeft };
         if (Instance == null)
         {
             Instance = this;
@@ -33,10 +32,6 @@ public class CarController : MonoBehaviour, ICar_2
         else
         {
             Destroy(Instance);
-        }
-        foreach(var a in w)
-        {
-            Debug.Log($"{a.name} �̈ʒu : {a.transform.position}");
         }
     }
     private void Start()
