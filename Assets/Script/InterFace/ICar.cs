@@ -4,7 +4,7 @@ using UnityEngine;
 
 interface ICar
 {
-    void Precession();
+    void Precession(float input);
     void MoveSideways();
     void Breake();
     void Drift();

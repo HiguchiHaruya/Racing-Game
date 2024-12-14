@@ -24,6 +24,15 @@
                     "initialStateCheck": true
                 },
                 {
+                    "name": "MoveBack",
+                    "type": "Value",
+                    "id": "0c529f4f-9772-422a-88ab-f73a9dc11618",
+                    "expectedControlType": "Axis",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": true
+                },
+                {
                     "name": "MoveLeft",
                     "type": "Value",
                     "id": "c7c24508-6d1b-4022-9885-826d2cdc0a34",
@@ -45,6 +54,24 @@
                     "name": "Brake",
                     "type": "Button",
                     "id": "98d2a33f-7fe5-496b-ac88-4fab8ff9751c",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "SwitchCamera",
+                    "type": "Button",
+                    "id": "7d13b532-8e54-4aa3-ad38-3237fc34a20a",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                },
+                {
+                    "name": "other",
+                    "type": "Button",
+                    "id": "0b3770d8-a4d5-49c2-a21a-facc78e04d7d",
                     "expectedControlType": "Button",
                     "processors": "",
                     "interactions": "",
@@ -104,6 +131,39 @@
                     "processors": "",
                     "groups": "",
                     "action": "Brake",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f09598fa-b972-434a-afae-f4a44e2aa5ae",
+                    "path": "<Keyboard>/s",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "MoveBack",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "29020bfc-3812-4cad-a925-caa0438aecd4",
+                    "path": "<Keyboard>/tab",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "SwitchCamera",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "b1b94d32-53e4-45e0-9e24-e09bc11da376",
+                    "path": "<Keyboard>/enter",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "other",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

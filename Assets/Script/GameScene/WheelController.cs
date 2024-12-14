@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using UniRx;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityEngine.InputSystem;
 using UnityEngine.ProBuilder.Shapes;
 
 public class WheelController : Vehicle, ICar
@@ -15,6 +17,7 @@ public class WheelController : Vehicle, ICar
     Rigidbody _rb;
     Transform _carbody;
     private int _firstRun = 0;
+    private float _forwardInput;
     protected override void Awake()
     {
         base.Awake();
@@ -24,6 +27,10 @@ public class WheelController : Vehicle, ICar
         _carbody = this.transform;
         _rb = GetComponent<Rigidbody>();
         RegisterTire();
+        InputReader.Instance.OnMoveForwardAsObservable().Subscribe(context =>
+        {
+            _forwardInput = context.ReadValue<float>();
+        }).AddTo(this);
     }
 
     private void RegisterTire()
@@ -39,7 +46,7 @@ public class WheelController : Vehicle, ICar
         if (!GameManager.Instance.IsGameStart) return;
         Drift();
         MoveSideways();
-        Precession();
+        Precession(_forwardInput);
         Breake();
         Acceleration(_rb);
         //ApplyCarTilt(_carbody,_driftAngle,_tiltSpeed);
@@ -52,9 +59,9 @@ public class WheelController : Vehicle, ICar
     {
         base.ApplyCarTilt(carBody, tiltAngle, tiltSpeed);
     }
-    public override void Precession()
+    public override void Precession(float input)
     {
-        base.Precession();
+        base.Precession(_forwardInput);
     }
     public override void Breake()
     {

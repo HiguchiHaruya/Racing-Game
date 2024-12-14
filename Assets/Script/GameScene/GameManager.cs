@@ -7,16 +7,14 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour
 {
-    [SerializeField]
-    private Renderer _startLights1;
-    [SerializeField]
-    private Renderer _startLights2;
-    [SerializeField]
-    private Renderer _startLights3;
-    [SerializeField]
-    private Material _greenMaterial;
-    [SerializeField]
-    public Camera _playerCamera;
+    //[SerializeField]
+    //private Renderer _startLights1;
+    //[SerializeField]
+    //private Renderer _startLights2;
+    //[SerializeField]
+    //private Renderer _startLights3;
+    //[SerializeField]
+    //private Material _greenMaterial;
     private bool _isGameStart = false;
     private bool _isGoal = false;
     private float _currentGameTime = 0f;
@@ -42,13 +40,13 @@ public class GameManager : MonoBehaviour
     }
     private void Update()
     {
-        StartCountDown();
+        //StartCountDown();
         LeaveGame();
         if (!GetIsGoalFlag() && _isGameStart)
         {
             _currentGameTime += Time.deltaTime;
         }
-        else if(GetIsGoalFlag())
+        else if (GetIsGoalFlag())
         {
             _isGoal = true;
             Debug.Log("ƒS[ƒ‹‚µ‚Ü‚µ‚½");
@@ -60,7 +58,6 @@ public class GameManager : MonoBehaviour
     {
         if (_firstRun == 0)
         {
-            _playerCamera.transform.parent = null;
             SceneTransitionManager.Instance.LoadSceneAsync("ResultScene");
             _firstRun++;
         }
@@ -82,26 +79,26 @@ public class GameManager : MonoBehaviour
         return false;
     }
 
-    private void StartCountDown()
-    {
-        if ((int)_countDownTime >= 0)
-        {
-            _countDownTime -= Time.deltaTime;
-            switch ((int)_countDownTime)
-            {
-                case 4:
-                    _startLights1.material = _greenMaterial;
-                    break;
-                case 3:
-                    _startLights2.material = _greenMaterial;
-                    break;
-                case 2:
-                    _startLights3.material = _greenMaterial;
-                    break;
-                case 1:
-                    _isGameStart = true;
-                    break;
-            }
-        }
-    }
+    //private void StartCountDown()
+    //{
+    //    if ((int)_countDownTime >= 0)
+    //    {
+    //        _countDownTime -= Time.deltaTime;
+    //        switch ((int)_countDownTime)
+    //        {
+    //            case 4:
+    //                _startLights1.material = _greenMaterial;
+    //                break;
+    //            case 3:
+    //                _startLights2.material = _greenMaterial;
+    //                break;
+    //            case 2:
+    //                _startLights3.material = _greenMaterial;
+    //                break;
+    //            case 1:
+    //                _isGameStart = true;
+    //                break;
+    //        }
+    //    }
 }
+
