@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 using UnityEngine.UI;
@@ -11,8 +12,10 @@ public class KeyRebind : MonoBehaviour
     private string _actionName;
     [SerializeField]
     private GameObject _waitingKeyPanel;
+    //[SerializeField]
+    //private Text _currentActionNameText;
     [SerializeField]
-    private Text _currentActionNameText;
+    private TMP_Text _currentActionNameText;
     private InputAction _targetAction;
     private void Start()
     {

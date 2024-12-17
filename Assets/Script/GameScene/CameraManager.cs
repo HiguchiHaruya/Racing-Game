@@ -1,7 +1,10 @@
 using Cinemachine;
 using System.Collections;
 using System.Collections.Generic;
+using UniRx;
 using UnityEngine;
+using UnityEngine.InputSystem;
+using UnityEngine.PlayerLoop;
 
 public class CameraManager : MonoBehaviour
 {
@@ -9,9 +12,26 @@ public class CameraManager : MonoBehaviour
     CinemachineVirtualCamera _cam1;
     [SerializeField]
     CinemachineVirtualCamera _cam2;
+    private bool _cameraInput = false;
     private void Start()
     {
-
+        StartCoroutine(FirstCameraEvent());
+        InputReader.Instance.OnCameraSwitchAsObservable
+            .Where(context => context.performed) //ƒ{ƒ^ƒ“‰Ÿ‚³‚ê‚½uŠÔ‚Ì‚Ý”½‰ž‚·‚é
+            .Subscribe(_ => SwicthCamera())
+            .AddTo(this);
+    }
+    private void SwicthCamera()
+    {
+        _cameraInput = !_cameraInput;
+        if (_cameraInput)
+        {
+            ActiveCam1();
+        }
+        else if (!_cameraInput)
+        {
+            ActiveCam2();
+        }
     }
     IEnumerator FirstCameraEvent()
     {

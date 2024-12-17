@@ -21,32 +21,19 @@ public class InputReader : Singleton<InputReader>, PlayerInputControls.IPlayerAc
     private Subject<InputAction.CallbackContext> _onOtherSubject = new();
     private Subject<InputAction.CallbackContext> _onCameraSwitchSubject = new();
 
-    public IObservable<InputAction.CallbackContext> OnBrakeAsObservable() => _onBrakeSubject;
-    public IObservable<InputAction.CallbackContext> OnDriftAsObservable() => _onDriftSubject;
-    public IObservable<InputAction.CallbackContext> OnMoveBackAsObservable() => _onMoveBackSubject;
-    public IObservable<InputAction.CallbackContext> OnMoveForwardAsObservable() => _onMoveForwardSubject;
-    public IObservable<InputAction.CallbackContext> OnMoveLeftAsObservable() => _onMoveLeftSubject;
-    public IObservable<InputAction.CallbackContext> OnMoveRightAsObservable() => _onMoveRightSubject;
-    public IObservable<InputAction.CallbackContext> OnOtherAsObservable() => _onOtherSubject;
-    public IObservable<InputAction.CallbackContext> OnCameraSwitchAsObservable() => _onCameraSwitchSubject;
+    public IObservable<InputAction.CallbackContext> OnBrakeAsObservable => _onBrakeSubject;
+    public IObservable<InputAction.CallbackContext> OnDriftAsObservable => _onDriftSubject;
+    public IObservable<InputAction.CallbackContext> OnMoveBackAsObservable => _onMoveBackSubject;
+    public IObservable<InputAction.CallbackContext> OnMoveForwardAsObservable => _onMoveForwardSubject;
+    public IObservable<InputAction.CallbackContext> OnMoveLeftAsObservable => _onMoveLeftSubject;
+    public IObservable<InputAction.CallbackContext> OnMoveRightAsObservable => _onMoveRightSubject;
+    public IObservable<InputAction.CallbackContext> OnOtherAsObservable => _onOtherSubject;
+    public IObservable<InputAction.CallbackContext> OnCameraSwitchAsObservable => _onCameraSwitchSubject;
     void Start()
     {
-        OnMoveForwardAsObservable().Subscribe(context =>
-        {
-            _forwardInput = context.ReadValue<float>();
-        });
-        OnMoveBackAsObservable().Subscribe(context =>
-        {
-            _backwardInput = context.ReadValue<float>();
-        });
-        OnMoveLeftAsObservable().Subscribe(context =>
-        {
-            _leftInput -= context.ReadValue<float>();
-        });
-        OnMoveRightAsObservable().Subscribe(context =>
-        {
-            _rightInput = context.ReadValue<float>();
-        });
+        _contrls = new PlayerInputControls();
+        _contrls.PlayerActionMap.SetCallbacks(this);
+        _contrls.PlayerActionMap.Enable();
     }
     public void OnBrake(InputAction.CallbackContext context)
     {
