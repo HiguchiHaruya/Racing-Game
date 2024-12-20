@@ -30,6 +30,6 @@ public class TimeKeeper : Singleton<TimeKeeper>
             _minutes += 1;
             _minutesReactive.Value = _minutes;
         }
-        Debug.Log($"現在のタイム{_minutes}m {_seconds}s");
+       // Debug.Log($"現在のタイム{_minutes}m {_seconds}s");
     }
 }

@@ -4,24 +4,11 @@ using UnityEngine;
 using System.IO; //ファイル操作の為に必要
 using Newtonsoft.Json; //jsonを使う為に必要
 
-public class RankingManager : MonoBehaviour
+public class RankingManager : Singleton<RankingManager>
 {
     [SerializeField]
     private bool _clearRankingData = false;
-    public static RankingManager Instance;
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
-    [System.Serializable] //このクラスをシリアライズ化(保存出来る状態)に出来る
+    [System.Serializable] 
     public class PlayerScore
     {
         public string playerName;

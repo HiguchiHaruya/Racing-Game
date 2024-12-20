@@ -4,24 +4,10 @@ using UnityEngine;
 using UnityEngine.UI;
 using UnityEngine.SceneManagement;
 using System;
-public class SceneTransitionManager : MonoBehaviour
+public class SceneTransitionManager : Singleton<SceneTransitionManager>
 {
     [SerializeField]
     private Image _fadeImage;
-    public static SceneTransitionManager Instance;
-
-    private void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
     public void LoadSceneAsync(string sceneName)
     {
         gameObject.SetActive(true);

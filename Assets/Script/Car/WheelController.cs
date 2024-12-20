@@ -29,7 +29,7 @@ public class WheelController : Vehicle, ICar
         RegisterTire();
         InputReader.Instance.OnMoveForwardAsObservable.Subscribe(context =>
         {
-            Debug.Log($"+++ ‘O“ü—Í—ˆ‚Ü‚µ‚½");
+           // Debug.Log($"+++ ‘O“ü—Í—ˆ‚Ü‚µ‚½");
             _forwardInput = context.ReadValue<float>();
         }).AddTo(this);
         InputReader.Instance.OnMoveBackAsObservable.Subscribe(context =>
@@ -75,15 +75,6 @@ public class WheelController : Vehicle, ICar
     public override void Drift()
     {
         base.Drift();
-        if (base._isPushDriftButton && _firstRun == 0)
-        {
-            _rb.AddForce(new Vector3(0, 3500, 0), ForceMode.Impulse);
-            _firstRun++;
-        }
-        else if (!base._isPushDriftButton)
-        {
-            _firstRun = 0;
-        }
     }
     public override void Acceleration(Rigidbody rb)
     {

@@ -6,60 +6,20 @@ using UnityEngine;
 using UnityEngine.InputSystem;
 using System;
 
-public class Vehicle : MonoBehaviour, ICar
+public class Vehicle : Singleton<Vehicle>, ICar
 {
-    public static Vehicle Instance;
     [SerializeField]
     private float _maxTorque; //Max速度
-    [SerializeField]
-    private int _lapCount = 1;
     public float angle; //横移動角度
     public float brake; //ブレーキ力
-    protected float _friction = 3f; //通常時のタイヤの摩擦
-    protected float _driftFriction = 2.2f; //ドリフト時のStiffness
     private float _torque = 0; //現在の速度
-    //private float _maxTime = 1f; //最高速度に達するまでの時間
-    //private float _currentTime; //maxTimeを計測するための変数
-    //private float _coolTime = 0; //加速のクールタイム
-    private float _driftTransitionSpeed = 8f; //ドリフトのstiffness値Maxまでの遷移時間
-    private float _targetFriction = 2;
-    private float _currentStiffness = 2f; //現在のStiffness
-    private float _effectFriction = 1.39f; //エフェクトが出るStiffness値
     float steer = 0;
     protected WheelCollider frontRight, frontLeft, rearRight, rearLeft; //タイヤ達
     private CarState _currentState;
-    protected bool _isDrifting = false;
-    protected bool _isPushDriftButton = false;
-    private bool _isFirstRun = false;
-    private float _sliderTorque = 0;
-    private int _coolMaxTime = 30;
-
-    //private float _forwardInput;
-
-    public int LapCount => _lapCount;
-    public float MaxTorque => _maxTorque;
     public float Torque => _torque;
-    //public float CoolTime => _coolTime;
-    public bool IsDrifting => _isDrifting;
-    public float SliderTorque => _sliderTorque;
-    public int CoolMaxTime => _coolMaxTime;
-    protected virtual void Awake()
-    {
-        if (Instance == null)
-        {
-            Instance = this;
-            DontDestroyOnLoad(gameObject);
-        }
-        else
-        {
-            Destroy(gameObject);
-        }
-    }
     private void Start()
     {
         _currentState = CarState.Idle;
-        _lapCount = 1;
-
     }
     private void Update()
     {
@@ -75,7 +35,6 @@ public class Vehicle : MonoBehaviour, ICar
     /// <summary>前移動メソッド</summary>
     public virtual void Precession(float input)
     {
-        Debug.Log($"前入力 : {input}");
         if (input > 0)
         {
             _torque = -1 * _maxTorque;
@@ -127,31 +86,31 @@ public class Vehicle : MonoBehaviour, ICar
     }
     public virtual void Drift()
     {
-        var driftInput = InputManager.Instance._inputActions.PlayerActionMap.Drift.ReadValue<float>();
-        //Debug.Log(rearLeft.sidewaysFriction.stiffness);
-        _isDrifting = false;
-        WheelFrictionCurve sidewaysFriction = rearLeft.sidewaysFriction;
-        float forceAppPointDistance = rearLeft.forceAppPointDistance;
-        _currentStiffness = Mathf.Lerp(_currentStiffness, _targetFriction, Time.deltaTime * _driftTransitionSpeed);
-        if (driftInput > 0)
-        {
-            _isPushDriftButton = true;
-            _targetFriction = _driftFriction;
-            sidewaysFriction.stiffness = _currentStiffness;
-            if (sidewaysFriction.stiffness <= _driftFriction + 0.01) { _isDrifting = true; }
-            forceAppPointDistance = 0.125f;
-        }
-        else
-        {
-            forceAppPointDistance = 0.075f;
-            _currentStiffness = _friction;
-            sidewaysFriction.stiffness = _friction;
-            _isPushDriftButton = false;
-        }
-        rearLeft.forceAppPointDistance = forceAppPointDistance;
-        rearRight.forceAppPointDistance = forceAppPointDistance;
-        rearLeft.sidewaysFriction = sidewaysFriction;
-        rearRight.sidewaysFriction = sidewaysFriction;
+        //var driftInput = InputManager.Instance._inputActions.PlayerActionMap.Drift.ReadValue<float>();
+        ////Debug.Log(rearLeft.sidewaysFriction.stiffness);
+        //_isDrifting = false;
+        //WheelFrictionCurve sidewaysFriction = rearLeft.sidewaysFriction;
+        //float forceAppPointDistance = rearLeft.forceAppPointDistance;
+        //_currentStiffness = Mathf.Lerp(_currentStiffness, _targetFriction, Time.deltaTime * _driftTransitionSpeed);
+        //if (driftInput > 0)
+        //{
+        //    _isPushDriftButton = true;
+        //    _targetFriction = _driftFriction;
+        //    sidewaysFriction.stiffness = _currentStiffness;
+        //    if (sidewaysFriction.stiffness <= _driftFriction + 0.01) { _isDrifting = true; }
+        //    forceAppPointDistance = 0.125f;
+        //}
+        //else
+        //{
+        //    forceAppPointDistance = 0.075f;
+        //    _currentStiffness = _friction;
+        //    sidewaysFriction.stiffness = _friction;
+        //    _isPushDriftButton = false;
+        //}
+        //rearLeft.forceAppPointDistance = forceAppPointDistance;
+        //rearRight.forceAppPointDistance = forceAppPointDistance;
+        //rearLeft.sidewaysFriction = sidewaysFriction;
+        //rearRight.sidewaysFriction = sidewaysFriction;
     }
     ///<summary> 加速機能メソッド</summary>
     public virtual void Acceleration(Rigidbody rb)
@@ -179,13 +138,6 @@ public class Vehicle : MonoBehaviour, ICar
     public CarState GetCurrentState()
     {
         return _currentState;
-    }
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.gameObject.CompareTag("Finish"))
-        {
-            _lapCount++;
-        }
     }
 }
 public enum CarState

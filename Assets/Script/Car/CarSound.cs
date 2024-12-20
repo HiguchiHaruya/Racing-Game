@@ -36,14 +36,6 @@ public class CarSound : MonoBehaviour
                 PlayEngineSound(2);
                 break;
         }
-        if (!Vehicle.Instance.IsDrifting)
-        {
-            PlayDriftSound();
-        }
-        if (GameManager.Instance.IsGoal)
-        {
-            StopEngineSound();
-        }
     }
 
     private void PlayEngineSound(int index)

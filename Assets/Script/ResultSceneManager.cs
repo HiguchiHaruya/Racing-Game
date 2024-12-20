@@ -33,7 +33,7 @@ public class ResultSceneManager : MonoBehaviour
     }
     private void AddRanking()
     {
-        RankingManager.Instance.AddScore(_playerName.text, GameManager.Instance.CurrentGameTime);
+        //RankingManager.Instance.AddScore(_playerName.text, GameManager.Instance.CurrentGameTime);
         if (RankingManager.Instance.RankingList.Count >= 1)
         {
             _rankingText1.text = $"1ˆÊ : {RankingManager.Instance.GetRankingData(0).playerName} ƒ^ƒCƒ€ : {RankingManager.Instance.GetRankingData(0).score.ToString("F2")}";
